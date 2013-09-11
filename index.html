@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="description" content="HTML5: All Your Games Are Belong to Us">
+		<meta name="author" content="Erik Onarheim">
+		<link rel="stylesheet" type="text/css" href="css/presentation.css">
+		<link rel="stylesheet" type="text/css" href="css/custom.css">
+
+	</head>
+	<!-- Notes
+	How do you build games in HTML5? In this talk we will learn about the basics of game development and how to apply it in a canvas based HTML5 game. We will be building a simple game live on the screen by leveraging JavaScript and new HTML5 features. We will learn about drawing to the HTML5 canvas, handling key input, maintaining frame rate, the subtleties of performing rotations and translations, setting up audio, sprite animations, basic game physics, and multiplayer support! I will also discuss some lessons in game programming that I learned the hard way so that you don’t have to. If you are interested in web game development, come learn about everything you need to make your first game –from the basics to the advanced.
+
+
+	-->
+
+	<body class="impress-not-supported">
+		<div class="fallback-message">
+		</div>
+
+		<div id="impress">
+			<div id="start" class="step slide" data-x="-1500" data-y="-1500">
+			    <p><b>HTML5: All Your Games Are Belong to Us</b></p>
+			    <p> Building games in HTML5 and JavaScript
+			    
+			    <br/>
+			    <ul>
+			    	<li><img src="images/cats.png" class="right-image"></li>
+			    	<li><b>Erik Onarheim - Software Developer</b></li>
+			    	<li><b>@ErikOnarheim</b></li>
+			    	<li><b>erikonarheim.com</b></li>
+			    </ul>
+				</p>
+			</div>
+			<div class="step slide" data-x="0" data-y="-1500">
+				<p><b>HTML5 Games: The Building Blocks</b></p>
+				<ul>
+					<li>JavaScript</li>
+					<li>Canvas</li>
+					<li>The DOM</li>
+					<li>CSS3</li>
+				</ul>
+			</div>
+
+			<div id="gameloop" class="step slide" data-x="0" data-y="0">
+				<p><b>The "Game Loop"</b></p>
+				<div id="gameloop-editor" class="code-editor">
+var Game = function(){
+	var me = this;
+	me.update = function(delta){
+		// update state of the game
+		// including players, npcs, scenery, animations, etc.
+	}
+
+	me.draw = function(delta){
+		// draw the game
+	}
+
+	me.start = function(){
+		// todo: implement gameloop
+		var lastTime =  Date.now();
+		setInterval(function(){
+			// Get the time to calculate time-elapsed
+			var now = Date.now();
+
+			var elapsed = Math.floor(now - lastTime);
+
+			me.update(elapsed); 
+			me.draw(elapsed);
+
+			lastTime = now;
+		}, 30);	
+	}
+}
+var game = new Game();
+game.start()</div>
+			<canvas id="gameloop">
+					Your browser does not support canvas
+			</canvas>
+
+			</div>
+			<div class="step slide" data-x="0" data-y="1500">
+				<p><b>Consider</b></p>
+			</div>
+			<div class="step slide" data-x="0" data-y="3500">
+				<p><b>Drawing</b></p>
+			</div>
+			<div class="step slide" data-x="0" data-y="5000">
+				<p><b>Sprite Animations</b></p>
+			</div>
+			<!--
+			<div class="step slide">
+				<p><b>Animations with CSS</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Frame Rate</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Affine Transformation</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Key Input</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Audio</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Physics</b></p>
+			</div>
+			<div class="step slide">
+				<p><b>Multiplayer</b></p>
+			</div>
+			<div class="step slide">
+
+			</div>-->
+
+			<div id="end" class="step slide" data-x="1500" data-y="-1500" >
+			    <q>Thanks for watching!</q>
+			</div>
+		</div>
+
+		
+		<script type="text/javascript" src="lib/impress.js"></script>
+		<script type="text/javascript">impress().init()</script>
+		<script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
+		<script type="text/javascript">
+			var gameloopEditor = ace.edit("gameloop-editor");
+			gameloopEditor.setShowPrintMargin(false);
+			gameloopEditor.setTheme("ace/theme/monokai");
+		    gameloopEditor.getSession().setMode("ace/mode/javascript");
+		    gameloopEditor.getSession().setTabSize(4);
+		    gameloopEditor.getSession().setUseSoftTabs(true);
+		    gameloopEditor.getSession().setUseWorker(true);
+		    gameloopEditor.commands.addCommand({
+			    name: 'Save',
+			    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+			    exec: function(editor) {
+			        //...
+			    },
+			    readOnly: true // false if this command should not apply in readOnly mode
+			});
+		</script>
+	</body>
+</html>
