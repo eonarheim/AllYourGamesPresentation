@@ -20,16 +20,27 @@
 		<div id="impress">
 			<div id="start" class="step slide" data-x="-1500" data-y="-1500">
 			    <p><b>HTML5: All Your Games Are Belong to Us</b></p>
-			    <p> Building games in HTML5 and JavaScript
+			    <p> Building Games in HTML5 and JavaScript
 			    
 			    <br/>
 			    <ul>
-			    	<li><img src="images/cats.png" class="right-image"></li>
-			    	<li><b>Erik Onarheim - Software Developer</b></li>
-			    	<li><b>@ErikOnarheim</b></li>
-			    	<li><b>erikonarheim.com</b></li>
+			    	<li><img src="images/cats.png" class="right-image border"></li>
+			    	<li>Erik Onarheim - Software Developer</li>
+			    	<li>@ErikOnarheim</li>
+			    	<li>erikonarheim.com</li>
 			    </ul>
 				</p>
+			</div>
+			<div id="about" class="step slide" data-x="-1500" data-y="0">
+				<p><b>About Me</b></p>
+				<hr/>
+				<ul>
+					<li>One</li>
+					<li>Two</li>
+					<li>Three</li>
+					<li>Four</li>
+				</ul>
+
 			</div>
 			<div class="step slide" data-x="0" data-y="-1500">
 				<p><b>HTML5 Games: The Building Blocks</b></p>
@@ -73,13 +84,14 @@ var Game = function(){
 }
 var game = new Game();
 game.start()</div>
-			<canvas id="gameloop">
-					Your browser does not support canvas
-			</canvas>
-
 			</div>
-			<div class="step slide" data-x="0" data-y="1500">
-				<p><b>Consider</b></p>
+			<div id="gameloop-example" class="step slide" data-x="0" data-y="1500">
+				<p><b>Example</b></p>
+				<button class="btn btn-primary">Start</button>
+				<hr/>
+				<canvas id="gameloop-canvas" class="border">
+				</canvas>
+
 			</div>
 			<div class="step slide" data-x="0" data-y="3500">
 				<p><b>Drawing</b></p>
