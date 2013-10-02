@@ -11,8 +11,15 @@ body {
     background:         radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
 }
 
+a {
+    background: rgba(21, 48, 189, 0.5);
+}
+
+a:hover{
+    background: rgba(235, 129, 46, 1);
+}
+
 .right-image {
-	width: 600px;
 	margin-left: 40px;
 	margin: 20px;
 	margin-left: auto;
@@ -20,6 +27,21 @@ body {
 	margin-bottom: 20px;
 	margin-top: 10px;
 	display: block;    
+}
+
+.right-float {
+    float: right;
+    margin-left: 40px;
+    margin: 20px;
+    margin-left: auto;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    display: block;    
+}
+
+.space10 {
+    margin-bottom: 10%;
 }
 
 .border {
@@ -32,7 +54,7 @@ body {
 .slide {
     display: block;
 
-    width: 1000px;
+    width: 900px;
     height: 700px;
     padding: 40px 60px;
     color: white;
@@ -96,4 +118,8 @@ canvas {
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+
+#impress {
+    -webkit-transform: perspective(1000px) scale(1) !important;
 }

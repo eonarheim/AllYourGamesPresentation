@@ -14,17 +14,16 @@
 	-->
 
 	<body class="impress-not-supported">
-		<div class="fallback-message">
-		</div>
 
 		<div id="impress">
-			<div id="start" class="step slide" data-x="-1500" data-y="-1500">
+			<div id="introduction" class="step slide" data-x="-1500" data-y="-1500">
 			    <p><b>HTML5: All Your Games Are Belong to Us</b></p>
 			    <p> Building Games in HTML5 and JavaScript
 			    
 			    <br/>
 			    <ul>
-			    	<li><img src="images/cats.png" class="right-image border"></li>
+			    	<li><img src="images/cats.png" class="right-image border" style="
+	width: 600px;"></li>
 			    	<li>Erik Onarheim - Software Developer</li>
 			    	<li>@ErikOnarheim</li>
 			    	<li>erikonarheim.com</li>
@@ -35,25 +34,59 @@
 				<p><b>About Me</b></p>
 				<hr/>
 				<ul>
-					<li>One</li>
-					<li>Two</li>
-					<li>Three</li>
-					<li>Four</li>
+					<li><img src="images/me.png" class="right-float border"></li>
+					<li class="space10">Software Developer @ General Mills</li>
+					<li class="space10">Video Game Enthusiast</li>
+					<li class="space10">Excalibur js - <a href="http://www.excaliburjs.com">excaliburjs.com</a></li>
+					<li class="space10">Artist</li>
+					<li class="space10">Hacker</li>
 				</ul>
 
 			</div>
-			<div class="step slide" data-x="0" data-y="-1500">
+			<div id="building-blocks" class="step slide" data-x="0" data-y="-1500">
 				<p><b>HTML5 Games: The Building Blocks</b></p>
+				
+				<hr/>
+				<ul style="margin-top:100px">
+					<li><img src="images/HTML5.png"  style="float: left; width: 30%"></li>
+					<li><img src="images/CSS3.svg"  style="float: left; width: 22%;"></li>
+					<li><img src="images/JS.png"  style="float: left; width: 30%; margin-left:40px;"></li>
 				<ul>
-					<li>JavaScript</li>
-					<li>Canvas</li>
-					<li>The DOM</li>
-					<li>CSS3</li>
+			</div>
+			<div id="game-overview" class="step slide" data-x="1500" data-y="0" >
+				<p><b>General Game Pattern</b></p>
+				<hr>
+				<ul>
+					<li class="space10">Game Loop</li>
+					<li class="space10">Actors or Entities</li>
+					<li class="space10">Scene Graph</li>
+				</ul>
+
+			</div>
+
+			<div id="structure-gameloop" class="step slide" data-x="0" data-y="0" >
+				<b>Concept:</b> Game Loop
+				<hr>
+				<ul>
+					<li>Main game driver</li>
+					<li>"Infinite" Loop</li>
+					<li>Update -> Draw -> Repeat</li>
+					<li>Frame Rate ~16.6 msec for 60FPS</li>
+					<li>    X msec/frame * 1sec/1000msec * ???? </li>
+
+						<!-- <ul>
+							<li>while(true){...}</li>
+							<li>setTimeout(function(){...},16)</li>
+							<li>setInterval(function(){...},16)</li>
+							<li>requestAnimationFrame()</li>
+						</ul> -->
+
 				</ul>
 			</div>
 
-			<div id="gameloop" class="step slide" data-x="0" data-y="0">
-				<p><b>The "Game Loop"</b></p>
+			<div id="code-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
+				<p><b>Code:</b> Game Loop</p>
+				<hr>
 				<div id="gameloop-editor" class="code-editor">
 var Game = function(){
 	var me = this;
@@ -81,53 +114,98 @@ var Game = function(){
 			lastTime = now;
 		}, 30);	
 	}
-}
+	return me;
+};
+
 var game = new Game();
 game.start()</div>
-			</div>
-			<div id="gameloop-example" class="step slide" data-x="0" data-y="1500">
-				<p><b>Example</b></p>
+			</div><!-- 
+			<div id="example-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
+				<p><b>Example: Game Loop</b></p>
 				<button class="btn btn-primary">Start</button>
 				<hr/>
 				<canvas id="gameloop-canvas" class="border">
 				</canvas>
+			</div> -->
+			<div id="structure-actor" class="step slide" data-x="0" data-y="1500">
+				<b>Actors</b>
+				<hr/>
+				<p>They are responsible for each individual in your game, whether it is the player, an enemy, or part of the level.</p>
+				<p>Generally are aware of position and velocity.
+			</div>
+
+			<div id="code-actor" class="step slide" data-x="0" data-y="1500" data-z="2000">
+				<p><b>Code:</b> Actor</p>
+				<hr/>
+				<div id="actor-editor" class="code-editor">
+var Actor = function(x, y, width, height){
+	var me = this;
+
+	me.pos = {x: x || 0, y: y || 0};
+	me.vel = {vx: 0, vy: 0};
+	me.width = width || 0;
+	me.height = height || 0;	
+
+	return me;
+};
+
+Actor.prototype.update = function(delta){
+	// todo implement update
+};
+
+Actor.prototype.draw = function(delta){
+	// todo implement draw
+};
+
+
+</div>
+
 
 			</div>
-			<div class="step slide" data-x="0" data-y="3500">
-				<p><b>Drawing</b></p>
-			</div>
-			<div class="step slide" data-x="0" data-y="5000">
-				<p><b>Sprite Animations</b></p>
-			</div>
-			<!--
-			<div class="step slide">
-				<p><b>Animations with CSS</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Frame Rate</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Affine Transformation</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Key Input</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Audio</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Physics</b></p>
-			</div>
-			<div class="step slide">
-				<p><b>Multiplayer</b></p>
-			</div>
-			<div class="step slide">
+			<div id="structure-scene-graph" class="step slide" data-x="0" data-y="3000">
+				<b>Scene Graphs</b>
+				<hr>
+				Simple list - order in the list determines order drawn.
+				Tree structure - easily implement parented movement, optimize drawing.
 
-			</div>-->
-
-			<div id="end" class="step slide" data-x="1500" data-y="-1500" >
-			    <q>Thanks for watching!</q>
 			</div>
+			<div id="code-scene-graph" class="step slide" data-x="0" data-y="3000" data-z="2000">
+				<p><b>Code:</b> Scene Graph</p>
+				<hr/>
+				<div id="scene-graph-editor" class="code-editor">
+var Node = function(actor){
+	var me = this;
+	me.actor = actor;
+	me.children = [];
+};
+
+Node.prototype.addChild = function(actor){
+	this.children.push(actor);
+};
+
+Node.prototype.removeChild = function(actor){
+	this.children.remove(actor);
+};
+
+Node.prototype.update = function(delta){
+	this.actor.update(delta);
+	this.children.forEach(function(child){
+		child.update(delta);
+	});
+};
+
+Node.prototype.draw = function(delta){
+	this.actor.draw(delta);
+	this.children.forEach(function(child){
+		child.draw(delta);
+	});
+};</div>
+			</div>
+			<div id="drawing" class="step slide" data-x="0" data-y="4500">
+				
+			</div>
+
+
 		</div>
 
 		
@@ -135,21 +213,31 @@ game.start()</div>
 		<script type="text/javascript">impress().init()</script>
 		<script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
 		<script type="text/javascript">
-			var gameloopEditor = ace.edit("gameloop-editor");
-			gameloopEditor.setShowPrintMargin(false);
-			gameloopEditor.setTheme("ace/theme/monokai");
-		    gameloopEditor.getSession().setMode("ace/mode/javascript");
-		    gameloopEditor.getSession().setTabSize(4);
-		    gameloopEditor.getSession().setUseSoftTabs(true);
-		    gameloopEditor.getSession().setUseWorker(true);
-		    gameloopEditor.commands.addCommand({
-			    name: 'Save',
-			    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-			    exec: function(editor) {
-			        //...
-			    },
-			    readOnly: true // false if this command should not apply in readOnly mode
-			});
+				var makeEditor = function(id){
+					var editor = ace.edit(id);
+					editor.setShowPrintMargin(false);
+					editor.setTheme("ace/theme/monokai");
+				    editor.getSession().setMode("ace/mode/javascript");
+				    editor.getSession().setTabSize(4);
+				    editor.getSession().setUseSoftTabs(true);
+				    editor.getSession().setUseWorker(true);
+				    editor.commands.addCommand({
+					    name: 'Save',
+					    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+					    exec: function(editor) {
+					        //...
+					    },
+					    readOnly: true // false if this command should not apply in readOnly mode
+					});
+					editor.setFontSize(20);
+					return editor;
+				}
+
+				var gameloopEditor = makeEditor('gameloop-editor');
+				var actorEditor = makeEditor('actor-editor');
+				var sceneGraphEditor = makeEditor('scene-graph-editor');
+
+
 		</script>
 	</body>
 </html>
