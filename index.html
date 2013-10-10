@@ -48,14 +48,13 @@
 				
 				<hr/>
 				<ul style="margin-top:100px">
-					<li><img src="images/HTML5.png"  style="float: left; width: 30%"></li>
-					<li><img src="images/CSS3.svg"  style="float: left; width: 22%;"></li>
-					<li><img src="images/JS.png"  style="float: left; width: 30%; margin-left:40px;"></li>
+					<li><img src="images/buildingblocks.png" style="width:100%"></li>
 				<ul>
 			</div>
 			<div id="canvas-overview" class="step slide" data-x="1500" data-y="0" >
 				<p><b>Canvas</b></p>
 				<hr>
+				<img src="images/canvas.svg" style="width:100%">
 			</div>
 
 
@@ -75,7 +74,7 @@ var y = 10;
 var dx = 1;
 var dy = 0;
 
-setInterval(function(){
+var interval = setInterval(function(){
     // Clear Canvas
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -93,7 +92,7 @@ setInterval(function(){
 }, 17);</div>
 			</div>
 
-			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="-2000">
+			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="2000">
 				<p><b>Example: Game Loop</b></p>
 				<button id="btn-drawing" class="btn btn-primary">Start</button>
 				<hr/>
@@ -103,7 +102,7 @@ setInterval(function(){
 
 
 
-			<div id="code-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
+			<!-- <div id="code-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
 				<p><b>Code:</b> Game Loop</p>
 				<hr>
 				<div id="gameloop-editor" class="code-editor">
@@ -138,7 +137,7 @@ var Game = function(){
 
 var game = new Game();
 game.start()</div>
-			</div><!-- 
+			</div> --><!-- 
 			<div id="example-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
 				<p><b>Example: Game Loop</b></p>
 				<button class="btn btn-primary">Start</button>
@@ -272,13 +271,14 @@ Node.prototype.draw = function(delta){
 
 				var hideDemoCode = false;
 				var drawingEditor = makeEditor('drawing-editor', hideDemoCode);
-				var gameloopEditor = makeEditor('gameloop-editor');
+				//var gameloopEditor = makeEditor('gameloop-editor');
 				var actorEditor = makeEditor('actor-editor');
 				var sceneGraphEditor = makeEditor('scene-graph-editor');
 
-
+				var interval = undefined;
 				// Setup coding demos
 				$('#btn-drawing').on('click', function(){
+					if(interval){clearInterval(interval)};
 					var code = drawingEditor.getSession().getValue();
 					scriptHoister(code);
 				});
