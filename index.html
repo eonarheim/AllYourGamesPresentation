@@ -43,7 +43,7 @@
 				</ul>
 
 			</div>
-			<div id="building-blocks" class="step slide" data-x="0" data-y="-1500">
+			<div id="building-blocks" class="step slide" data-x="-1500" data-y="1500">
 				<p><b>HTML5 Games: The Building Blocks</b></p>
 				
 				<hr/>
@@ -51,22 +51,82 @@
 					<li><img src="images/buildingblocks.png" style="width:100%"></li>
 				<ul>
 			</div>
-			<div id="canvas-overview" class="step slide" data-x="1500" data-y="0" >
+			<div id="canvas-overview" class="step slide" data-x="-1500" data-y="3000" >
 				<p><b>Canvas</b></p>
 				<hr>
 				<img src="images/canvas.svg" style="width:100%">
+			</div>
+
+			<div id="canvas-visual-aid" class="step" data-x="-1500" data-y="4500">
+				<img src="images/canvasresolution.png" style="width:100%">
 			</div>
 
 
 			<div id="code-drawing" class="step slide" data-x="0" data-y="0">
 				<p><b>Code:</b> Drawing</p>
 				<hr>
-				<div id="drawing-editor" class="code-editor">if(!window.requestAnimationFrame){
+				<div id="drawing-editor" class="code-editor">var canvas = document.getElementById('canvas1');
+var ctx = canvas.getContext('2d');
+
+var erase = function(){
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+};
+
+// rectangles
+ctx.fillStyle = 'white';
+ctx.fillRect(50, 50, 50, 50);
+
+// circles
+erase();
+ctx.fillStyle = 'red';
+ctx.beginPath();
+ctx.arc(50, 50, 10, 0, Math.PI*1);
+ctx.closePath();
+ctx.fill();
+
+// text
+erase();
+ctx.fillStyle = 'white';
+ctx.fillText('Hello Canvas!', 100,100);
+
+// images
+erase();
+var image = new Image();
+image.src = './images/me.png';
+ctx.drawImage(image, 0, 0, 213, 500, 75, 0, 100, 150);
+
+// affine transformations
+erase();
+ctx.save();
+ctx.translate(100,100);
+ctx.rotate(Math.PI/4);
+ctx.scale(2, 2);
+ctx.fillStyle = 'white';
+ctx.fillText('Rotated Text', -50, -10);
+ctx.restore();</div>
+			</div>
+
+			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="2000">
+				<p><b>Example:</b> Drawing</p>
+				<button id="btn-drawing" class="btn btn-primary">Start</button>
+				<hr/>
+				<canvas id="canvas1" width="480" height="320" class="border">
+				</canvas>
+			</div>
+
+			
+
+			<div id="time-based-movement" class="step slide" data-x="0" data-y="1500">
+				<p><b>Code:</b> Movement</p>
+				<hr>
+				<div id="movement-editor" class="code-editor">if(!window.requestAnimationFrame){
     window.requestAnimationFrame = webkitRequestAnimationFrame ||
-    mozRequestAnimationFrame || msRequestAnimationFrame;
+    mozRequestAnimationFrame || msRequestAnimationFrame || 
+    function(callback){window.setInterval(callback, 1000/60)};
 }
 
-var canvas = document.getElementById('canvas1');
+var canvas = document.getElementById('canvas2');
 var ctx = canvas.getContext('2d');
 
 var x = 10;
@@ -74,48 +134,109 @@ var y = 10;
 var dx = 1;
 var dy = 0;
 
-var interval = setInterval(function(){
-    // Clear Canvas
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+var running = true;
+(function mainloop(){
+    if(!running) return;
+
+    window.requestAnimationFrame(mainloop);
     
     // Update position
     x += dx;
     y += dy;
     
-    dx += 0;
-    dy += 1;
+    dx += 1;
+    dy += 0;
+    
+    // Clear Canvas
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     // Draw shape
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(x++, 10, 10, 10);
-}, 17);</div>
+    ctx.fillStyle = 'red';
+    ctx.fillRect(x, 10, 50, 50);
+})();</div>
 			</div>
 
-			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="2000">
-				<p><b>Example: Game Loop</b></p>
-				<button id="btn-drawing" class="btn btn-primary">Start</button>
+			<div id="example-time-based-movement" class="step slide" data-x="0" data-y="1500" data-z="2000">
+				<p><b>Example:</b> Movement</p>
+				<button id="btn-time-based-movement" class="btn btn-primary">Start</button>
 				<hr/>
-				<canvas id="canvas1" width="240" height="160" class="border">
+				<canvas id="canvas2" width="480" height="320" class="border">
 				</canvas>
 			</div>
 
+			<div id="time-fps" class="step slide" data-x="0" data-y="3000">
+				<p><b>Timing</b></p>
+				<hr>
+				<img src="images/fpscalculation.svg" style="width:100%; margin-top:50px" class="border">
+			</div>
 
+			<div id="timing" class="step slide" data-x="0" data-y="4500">
+				<p><b>Code:</b> Timing</p>
+				<hr/>
+				<div id="timing-editor" class="code-editor">var canvas = document.getElementById('canvas3');
+var ctx = canvas.getContext('2d');
 
-			<!-- <div id="code-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
+var clear = function(){
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+var drawFPS = function(fps){
+    ctx.fillStyle = 'red';
+    ctx.fillText('FPS: ' + fps.toFixed(1), 5, 20);
+};
+
+var x = 0;
+var y = 40;
+var dx = 3;
+var dy = 0;
+
+var update = function(delta){
+    var seconds = delta/1000;
+    x += dx*seconds;
+    y += dy*seconds;    
+};
+
+var draw = function(){
+    clear();
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y, 30, 30);
+};
+
+var lastTime =  Date.now();
+var interval = setInterval(function(){
+	// Get the time to calculate time-elapsed
+	var now = Date.now();
+	var elapsed = Math.floor(now - lastTime);
+    update(elapsed);
+    draw();
+    drawFPS(1/(elapsed/1000));
+
+	lastTime = now;
+}, 16);	</div>
+			</div>
+
+			<div id="example-timing" class="step slide" data-x="0" data-y="4500" data-z="2000">
+				<p><b>Example:</b> Timing</p>
+				<button id="btn-timing" class="btn btn-primary">Start</button>
+				<hr>
+				<canvas id="canvas3" width="480" height="320" class="border">
+				</canvas>
+			</div>
+
+			<div id="code-gameloop" class="step slide" data-x="0" data-y="6000">
 				<p><b>Code:</b> Game Loop</p>
 				<hr>
-				<div id="gameloop-editor" class="code-editor">
-var Game = function(){
+				<div id="gameloop-editor" class="code-editor">var Game = function(){
 	var me = this;
 	me.update = function(delta){
 		// update state of the game
 		// including players, npcs, scenery, animations, etc.
-	}
+	};
 
 	me.draw = function(delta){
 		// draw the game
-	}
+	};
 
 	me.start = function(){
 		// todo: implement gameloop
@@ -131,96 +252,92 @@ var Game = function(){
 
 			lastTime = now;
 		}, 30);	
-	}
+	};
+
 	return me;
 };
 
 var game = new Game();
-game.start()</div>
-			</div> --><!-- 
-			<div id="example-gameloop" class="step slide" data-x="0" data-y="0" data-z="2000">
-				<p><b>Example: Game Loop</b></p>
-				<button class="btn btn-primary">Start</button>
-				<hr/>
-				<canvas id="gameloop-canvas" class="border">
-				</canvas>
-			</div> -->
-			<div id="structure-actor" class="step slide" data-x="0" data-y="1500">
-				<b>Actors</b>
-				<hr/>
-				<p>They are responsible for each individual in your game, whether it is the player, an enemy, or part of the level.</p>
-				<p>Generally are aware of position and velocity.
+game.start();</div>
 			</div>
-
-			<div id="code-actor" class="step slide" data-x="0" data-y="1500" data-z="2000">
-				<p><b>Code:</b> Actor</p>
-				<hr/>
-				<div id="actor-editor" class="code-editor">
-var Actor = function(x, y, width, height){
-	var me = this;
-
-	me.pos = {x: x || 0, y: y || 0};
-	me.vel = {vx: 0, vy: 0};
-	me.width = width || 0;
-	me.height = height || 0;	
-
-	return me;
-};
-
-Actor.prototype.update = function(delta){
-	// todo implement update
-};
-
-Actor.prototype.draw = function(delta){
-	// todo implement draw
-};
-
-
-</div>
-
-
-			</div>
-			<div id="structure-scene-graph" class="step slide" data-x="0" data-y="3000">
-				<b>Scene Graphs</b>
+			<div id="collision-detection1" class="step slide" data-x="0" data-y="7500">
+				<p><b>Collision Detection</b></p>
 				<hr>
-				Simple list - order in the list determines order drawn.
-				Tree structure - easily implement parented movement, optimize drawing.
+				<ul>
+					<li class="space10"><b>Bounding Areas</b> - Circles, Rectangles</li>
+					<li class="space10"><b>Ray Casting</b> - Linear Algebra</li>
+					<li class="space10"><b>Spatial Partitioning*</b></li>
+					<li class="space10"><b>Separating Axis Theorem*</b><li>
+				</ul>
+			</div>
+
+			<div id="collision-detection-circles" class="step slide" data-x="1500" data-y="6000">
+				<p><b>Collision Detection:</b> Circles</p>
+				<hr>
+				<img src="images/circlecollision.svg" style="height:90%;width:100%">
+			</div>
+			<div id="collision-detection-rectangles" class="step slide" data-x="3000" data-y="6000">
+				<p><b>Collision Detection:</b> Rectangles</p>
+				<hr>
+				<img src="images/rectanglecollision.svg" style="height:90%; width:100%">
+				<!-- collides(A,B){
+			   ARight = A.x + A.w
+			   BRight = B.x + B.w
+			   ABottom = A.y + A.h
+			   BBottom = B.y + B.h
+			   return ARight > B.x &&
+              A.x < BRight &&
+              ABottom < B.y &&
+              A.y > BBottom} -->
+			</div>
+
+			<div id="collision-detection-spatial-partitioning-strict" class="step slide" data-x="4500" data-y="6000">
+				<p><b>Collision Detection:</b> Spatial Partitioning</p>
+				<hr>
+				<img src="images/spatialpartitioning.svg" style="padding-top:50px;width:100%">
+			</div>
+
+			<div id="handling-key-events" class="step slide">
+				<p><b>Handling Key Events</b></p>
+				<hr>
+				<ul>
+					<li>Recommend</li>
+				</ul>
 
 			</div>
-			<div id="code-scene-graph" class="step slide" data-x="0" data-y="3000" data-z="2000">
-				<p><b>Code:</b> Scene Graph</p>
-				<hr/>
-				<div id="scene-graph-editor" class="code-editor">
-var Node = function(actor){
-	var me = this;
-	me.actor = actor;
-	me.children = [];
-};
-
-Node.prototype.addChild = function(actor){
-	this.children.push(actor);
-};
-
-Node.prototype.removeChild = function(actor){
-	this.children.remove(actor);
-};
-
-Node.prototype.update = function(delta){
-	this.actor.update(delta);
-	this.children.forEach(function(child){
-		child.update(delta);
-	});
-};
-
-Node.prototype.draw = function(delta){
-	this.actor.draw(delta);
-	this.children.forEach(function(child){
-		child.draw(delta);
-	});
-};</div>
+			<div id="code-handling-key-events-vector" class="step slide">
+				<p><b>Handling Key Events:</b> Key Vector</p>
+				<div id="keycode-vector-editor" class="code-editor">var keys = [];
+window.addEventListener('keydown', function(e){
+	if(keys.indexOf(e.keyCode) === -1){
+		keys.push(e.keyCode);
+	}
+});
+window.addEventListener('keyup', function(e){
+	var index;
+	if((index = keys.indexOf(e.keyCode)) > 0){
+		keys.splice(index,1);
+	}
+});</div>
 			</div>
-			<div id="drawing" class="step slide" data-x="0" data-y="4500">
+			<div id="code-handling-key-events-konami" class="step slide">
+				<p><b>Key Combinations:</b> Konami Code</p>
+				<hr>
+				<div id="keycode-konami-editor" class="code-editor">(function(){
+	var game = new Snake();
+	var keys = [];
+	var konami = "38,38,40,40,37,39,37,39,66,65";
+	window.addEventListener('keydown', function(e) {
+        keys.push(e.keyCode);
+        if(keys.toString().indexOf(konami) >= 0 ){
+            keys.length = 0;
+            game.start();
+        }
+	});
+})();
 
+// Courtesy Paul Irish 
+// http://www.paulirish.com/2009/cornify-easter-egg-with-jquery/</div>
 			</div>
 
 
@@ -230,19 +347,20 @@ Node.prototype.draw = function(delta){
 		<script type="text/javascript" src="lib/impress.js"></script>
 		<script type="text/javascript">impress().init()</script>
 		<script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
+		<script type="text/javascript" src="snake.js"></script>
 		<script type="text/javascript">
-				var scriptHoister =function(scriptText){			 
-		            if (scriptText) {
-		                var head = document.getElementsByTagName("head")[0] || document.documentElement,
-		                    script = document.createElement("script");
-		                script.type = "text/javascript";
-		                script.text = scriptText;
-		                head.appendChild(script);
-		                head.removeChild(script);
-		            }
+				var scriptHoister =function(scriptText){
+					setTimeout(function(){
+			            if (scriptText) {
+			                var head = document.getElementsByTagName("head")[0] || document.documentElement,
+			                    script = document.createElement("script");
+			                script.type = "text/javascript";
+			                script.text = scriptText;
+			                head.appendChild(script);
+			                head.removeChild(script);
+			            }
+		            },10);
 				};
-
-
 
 				var makeEditor = function(id, removeCode){
 					var editor = ace.edit(id);
@@ -267,19 +385,42 @@ Node.prototype.draw = function(delta){
 					});
 					editor.setFontSize(20);
 					return editor;
-				}
+				};
+
+				var interval = undefined;
+				var running = false;
+				var clearAnimation = function(){
+					if(interval){clearInterval(interval)};
+					running = false;
+				};
 
 				var hideDemoCode = false;
 				var drawingEditor = makeEditor('drawing-editor', hideDemoCode);
-				//var gameloopEditor = makeEditor('gameloop-editor');
-				var actorEditor = makeEditor('actor-editor');
-				var sceneGraphEditor = makeEditor('scene-graph-editor');
+				var movementEditor = makeEditor('movement-editor', hideDemoCode);
+				var timingEditor = makeEditor('timing-editor');
+				var gameloopEditor = makeEditor('gameloop-editor');
+				var keycodeVectorEditor = makeEditor('keycode-vector-editor');
+				var keycodeKonamiEditor = makeEditor('keycode-konami-editor');
+				//var actorEditor = makeEditor('actor-editor');
+				//var sceneGraphEditor = makeEditor('scene-graph-editor');
 
-				var interval = undefined;
+				
 				// Setup coding demos
 				$('#btn-drawing').on('click', function(){
-					if(interval){clearInterval(interval)};
+					clearAnimation();
 					var code = drawingEditor.getSession().getValue();
+					scriptHoister(code);
+				});
+
+				$('#btn-time-based-movement').on('click', function(){
+					clearAnimation();
+					var code = movementEditor.getSession().getValue();
+					scriptHoister(code);
+				});
+
+				$('#btn-timing').on('click', function(){
+					clearAnimation();
+					var code = timingEditor.getSession().getValue();
 					scriptHoister(code);
 				});
 
