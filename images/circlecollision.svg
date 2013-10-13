@@ -205,7 +205,7 @@
          sodipodi:role="line"
          x="144.4518"
          y="718.50421"
-         id="tspan3811">if(r+R &gt;= d) collision</tspan></text>
+         id="tspan3811">if(d &lt; r+R) collision</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI;-inkscape-font-specification:Segoe UI"
