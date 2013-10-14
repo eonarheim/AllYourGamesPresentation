@@ -223,8 +223,11 @@ var interval = setInterval(function(){
 				<canvas id="canvas3" width="480" height="320" class="border">
 				</canvas>
 			</div>
+			<div id="stucture" class="step" data-x="0" data-y="6000">
+				<img src="images/spaghetticode.jpg" style="width:100%">
+			</div>
 
-			<div id="code-gameloop" class="step slide" data-x="0" data-y="6000">
+			<div id="code-gameloop" class="step slide" data-x="-1500" data-y="6000">
 				<p><b>Code:</b> Game Loop</p>
 				<hr>
 				<div id="gameloop-editor" class="code-editor">var Game = function(){
@@ -260,6 +263,26 @@ var interval = setInterval(function(){
 var game = new Game();
 game.start();</div>
 			</div>
+
+			<div id="code-actor" class="step slide" data-x="-1500" data-y="7500">
+				<p><b>Code:</b> Actor</p>
+				<hr>
+				<div id="actor-editor" class="code-editor">var Actor = function(){
+    var me = this;
+    me.pos = {x : 0, y: 0};
+    me.vel = {x : 0, y: 0};    
+    return me;
+};
+
+Actor.prototype.update = function(delta){
+    
+};
+
+Actor.prototype.draw = function(delta){
+    
+};</div>
+			</div>
+
 			<div id="collision-detection1" class="step slide" data-x="0" data-y="7500">
 				<p><b>Collision Detection</b></p>
 				<hr>
@@ -318,14 +341,7 @@ var collides = function(rectA, rectB){
 				<img src="images/spatialpartitioning2.svg" style="width:100%;height:90%">
 			</div>
 
-			<div id="handling-key-events" class="step slide" class="step slide" data-x="7500" data-y="4500">
-				<p><b>Handling Key Events</b></p>
-				<hr>
-				<ul>
-					<li>Recommend</li>
-				</ul>
-
-			</div>
+			
 			<div id="code-handling-key-events-vector" class="step slide" data-x="6000" data-y="4500">
 				<p><b>Handling Key Events:</b> Key Vector</p>
 				<div id="keycode-vector-editor" class="code-editor">var keys = [];
@@ -375,7 +391,10 @@ window.addEventListener('keyup', function(e){
 				<ul>
 					<li class="space10">Web Audio API</li>
 					<li class="space10">HTML5 Audio</li>
-					<li class="space10">Fallbacks*</li>
+					<li class="">Fallbacks*</li>
+					<li style="margin-left: 40px;">SoundManager 2</li>
+					<li style="margin-left: 40px;">jPlayer</li>
+					<li style="margin-left: 40px;">MediaElement.js</li>
 			</div>
 
 			<div id="code-html-audio" class="step slide" data-x="1500" data-y="3000">
@@ -386,6 +405,7 @@ window.addEventListener('keyup', function(e){
 				<div id="html-audio-editor" class="code-editor" style="height:400px">var sound = document.createElement('audio');
 document.body.appendChild(sound);
 sound.src = 'sounds/soundeffect.mp3';
+sound.volume = 0.5;
 
 var button = document.getElementById('btn-html-audio-play');
 button.addEventListener("click", function(){
@@ -400,7 +420,7 @@ button.addEventListener("click", function(){
 				<hr>
 				<div id="web-audio-editor" class="code-editor" style="height:400px">var context = new window.webkitAudioContext();
 var volume = context.createGain();
-volume.gain.value = 0.5;
+volume.gain.value = 0.6;
 
 var buffer = null;
 
@@ -421,7 +441,7 @@ var play = function(){
     sound.buffer = buffer;
     sound.connect(volume);
     volume.connect(context.destination);
-    sound.noteOn(0);
+    sound.start(0);
 };
 
 load();
@@ -429,7 +449,7 @@ load();
 var button = document.getElementById('btn-web-audio-play');
 button.addEventListener("click", function(){
     play();
-});;</div>
+});</div>
 			</div>
 			<div id="sprite-animation" class="step slide" data-x="4500" data-y="3000">
 				<p><b>Sprite Animation</b></p>
@@ -468,7 +488,6 @@ var Animation = function(spritesheet, columns, rows, sw, sh){
     me.draw = function(ctx, x, y){
         tick();
         sprites[currIndex].draw(ctx, x, y);
-        alert();
     };
     return me;
 };
@@ -504,18 +523,46 @@ var interval = setInterval(function(){
 					<li class="space10">Forever Frames</li>
 				</ul>
 			</div>
-			<div id="multiplayer-games-examples" class="step slide" data-x="0" data-y="0">
+			<div id="multiplayer-games-examples" class="step slide" data-x="1500" data-y="-1500">
 				<p><b>Multiplyer Examples</b></p>
 				<hr>
 				<ul>
-					<li class="space10"><a href="">HyperAsteroids</a> with Socket.io</li>
-					<li class="space10"><a href="">Super Tanks</a> with SignalR.Net</li>
+					<li class="space10"><a href="https://github.com/eonarheim/HyperAsteroids">HyperAsteroids</a> with Socket.io</li>
+					<li class="space10"><a href="https://github.com/eonarheim/SignalRGameDemo">Super Tanks</a> with SignalR.Net</li>
 				</ul>
 			</div>
+			<div id="hyper-asteroids" class="step" data-x="3000" data-y="-1500">
+				<h1 style="color:white">http://www.erikonarheim.com:8080</h1>
+				<iframe style="width: 700px;height: 700px;" src="http://www.erikonarheim.com:8080">No WIFI!</iframe>
+			</div>
+			<div id="resources" class="step slide" data-x="3000" data-y="-3000">
+				<p><b>Resources</b><p>
+				<hr>
+				<h5><b>Libraries</b></h5>
+				<ul>
+					<li style="margin-left: 40px;">Babylon js</li>
+					<li style="margin-left: 40px;">SoundManager 2 </li>
+					<li style="margin-left: 40px;">Impress js</li>
+					<li style="margin-left: 40px;">Ace Code Editor</li>
+					<li style="margin-left: 40px;">Excalibur js</li>
+				</ul>
+				<h5><b>Books</b></h5>
+				<ul>
+					<li style="margin-left: 40px;">Core HTML5 Cavnas - David Geary</li>
+					<li style="margin-left: 40px;">Secrets of a JavaScript Ninja - John Resig</li>
+					<li style="margin-left: 40px;">Effective JavaScript - David Herman</li>
+				</ul>
+				<h5><b>Links</b></h5>
+				<ul>
+					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=hFsCG7v9Y4c">Turning the Web Up to 11</a></li>
+					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=yF0T7lviBnY">HTML5 Bouncing Circles</a></li>
+					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=xdKWSjQ8bsQ">Diving Deep into Canvas</a></li>
+				</ul>
 
-
-
-
+			</div>
+			<div id="questions" class="step" data-x="3000" data-y="-4500">
+				<h5 style="width: 440px;font-size: 1000px;margin: auto;">?</h5>
+			</div>
 
 		</div>
 
@@ -575,6 +622,7 @@ var interval = setInterval(function(){
 				var movementEditor = makeEditor('movement-editor', hideDemoCode);
 				var timingEditor = makeEditor('timing-editor');
 				var gameloopEditor = makeEditor('gameloop-editor');
+				var actorEditor = makeEditor('actor-editor');
 				var collisionDetectionEditor = makeEditor('collision-detection-editor');
 				var keycodeVectorEditor = makeEditor('keycode-vector-editor');
 				var keycodeKonamiEditor = makeEditor('keycode-konami-editor');
