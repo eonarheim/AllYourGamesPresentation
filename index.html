@@ -186,33 +186,16 @@ var drawFPS = function(fps){
     ctx.fillText('FPS: ' + fps.toFixed(1), 5, 20);
 };
 
-var x = 0;
-var y = 40;
-var dx = 3;
-var dy = 0;
-
 var update = function(delta){
-    var seconds = delta/1000;
-    x += dx*seconds;
-    y += dy*seconds;    
+	// todo
 };
 
 var draw = function(){
-    clear();
-    ctx.fillStyle = 'blue';
-    ctx.fillRect(x, y, 30, 30);
+	// todo
 };
 
-var lastTime =  Date.now();
 var interval = setInterval(function(){
-	// Get the time to calculate time-elapsed
-	var now = Date.now();
-	var elapsed = Math.floor(now - lastTime);
-    update(elapsed);
-    draw();
-    drawFPS(1/(elapsed/1000));
-
-	lastTime = now;
+	//todo
 }, 16);	</div>
 			</div>
 
@@ -324,8 +307,8 @@ var collides = function(rectA, rectB){
     
     return ARight > rectB.x &&
     rectA.x < BRight &&
-    ABottom < rectB.y &&
-    rectA.y > BBottom;
+    ABottom > rectB.y &&
+    rectA.y < BBottom;
 };</div>
 			</div>
 
@@ -402,11 +385,7 @@ window.addEventListener('keyup', function(e){
 				<button id="btn-html-audio-load" class="btn btn-primary">Load</button>
 				<button id="btn-html-audio-play" class="btn btn-primary">Play</button>
 				<hr>
-				<div id="html-audio-editor" class="code-editor" style="height:400px">var sound = document.createElement('audio');
-document.body.appendChild(sound);
-sound.src = 'sounds/soundeffect.mp3';
-sound.volume = 0.5;
-
+				<div id="html-audio-editor" class="code-editor" style="height:400px">
 var button = document.getElementById('btn-html-audio-play');
 button.addEventListener("click", function(){
     sound.play();
@@ -419,29 +398,11 @@ button.addEventListener("click", function(){
 				<button id="btn-web-audio-play" class="btn btn-primary">Play</button>
 				<hr>
 				<div id="web-audio-editor" class="code-editor" style="height:400px">var context = new window.webkitAudioContext();
-var volume = context.createGain();
-volume.gain.value = 0.6;
-
-var buffer = null;
 
 var load = function(){
-  var request = new XMLHttpRequest();
-  request.open('GET', 'sounds/soundeffect.mp3');
-  request.responseType = 'arraybuffer';
-  request.onload = function(){
-      context.decodeAudioData(request.response, function(decodedBuffer){
-          buffer = decodedBuffer;
-      });
-  };
-  request.send();
 };
 
 var play = function(){
-    var sound = context.createBufferSource();
-    sound.buffer = buffer;
-    sound.connect(volume);
-    volume.connect(context.destination);
-    sound.start(0);
 };
 
 load();
@@ -514,7 +475,7 @@ var interval = setInterval(function(){
 				<img src="images/meme.jpg" style="width:100%">
 			</div>
 			<div id="multiplayer-games" class="step slide" data-x="1500" data-y="0">
-				<p><b>Multiplyer Support</b></p>
+				<p><b>Multiplayer Support</b></p>
 				<hr>
 				<ul>
 					<li class="space10">Web Sockets</li>
@@ -524,7 +485,7 @@ var interval = setInterval(function(){
 				</ul>
 			</div>
 			<div id="multiplayer-games-examples" class="step slide" data-x="1500" data-y="-1500">
-				<p><b>Multiplyer Examples</b></p>
+				<p><b>Multiplayer Examples</b></p>
 				<hr>
 				<ul>
 					<li class="space10"><a href="https://github.com/eonarheim/HyperAsteroids">HyperAsteroids</a> with Socket.io</li>
@@ -548,7 +509,7 @@ var interval = setInterval(function(){
 				</ul>
 				<h5><b>Books</b></h5>
 				<ul>
-					<li style="margin-left: 40px;">Core HTML5 Cavnas - David Geary</li>
+					<li style="margin-left: 40px;">Core HTML5 Canvas - David Geary</li>
 					<li style="margin-left: 40px;">Secrets of a JavaScript Ninja - John Resig</li>
 					<li style="margin-left: 40px;">Effective JavaScript - David Herman</li>
 				</ul>
@@ -617,7 +578,7 @@ var interval = setInterval(function(){
 					running = false;
 				};
 
-				var hideDemoCode = false;
+				var hideDemoCode = true;
 				var drawingEditor = makeEditor('drawing-editor', hideDemoCode);
 				var movementEditor = makeEditor('movement-editor', hideDemoCode);
 				var timingEditor = makeEditor('timing-editor');
