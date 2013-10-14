@@ -136,24 +136,7 @@ var dy = 0;
 
 var running = true;
 (function mainloop(){
-    if(!running) return;
-
-    window.requestAnimationFrame(mainloop);
     
-    // Update position
-    x += dx;
-    y += dy;
-    
-    dx += 1;
-    dy += 0;
-    
-    // Clear Canvas
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw shape
-    ctx.fillStyle = 'red';
-    ctx.fillRect(x, 10, 50, 50);
 })();</div>
 			</div>
 
@@ -213,8 +196,19 @@ var interval = setInterval(function(){
 			<div id="code-gameloop" class="step slide" data-x="-1500" data-y="6000">
 				<p><b>Code:</b> Game Loop</p>
 				<hr>
-				<div id="gameloop-editor" class="code-editor">var Game = function(){
+				<div id="gameloop-editor" class="code-editor">// request animation frame polyfill
+if(!window.requestAnimationFrame){
+    window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame || 
+    window.msRequestAnimationFrame || 
+    function(callback){ 
+        window.setInterval(callback, 1000/60);
+    };
+}
+
+var Game = function(){
 	var me = this;
+    var running = false;
 	me.update = function(delta){
 		// update state of the game
 		// including players, npcs, scenery, animations, etc.
@@ -222,12 +216,17 @@ var interval = setInterval(function(){
 
 	me.draw = function(delta){
 		// draw the game
+        // draw players, npcs, scenery, animations, etc.
 	};
 
 	me.start = function(){
-		// todo: implement gameloop
+        running = true;
 		var lastTime =  Date.now();
-		setInterval(function(){
+		(function mainloop(){
+            if(!running) return;
+            
+            window.requestAnimationFrame(mainloop);
+            
 			// Get the time to calculate time-elapsed
 			var now = Date.now();
 
@@ -237,8 +236,12 @@ var interval = setInterval(function(){
 			me.draw(elapsed);
 
 			lastTime = now;
-		}, 30);	
+		})();	
 	};
+    
+    me.stop = function(){
+        running = false;
+    };
 
 	return me;
 };
