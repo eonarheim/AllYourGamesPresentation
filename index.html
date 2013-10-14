@@ -265,9 +265,9 @@ game.start();</div>
 				<hr>
 				<ul>
 					<li class="space10"><b>Bounding Areas</b> - Circles, Rectangles</li>
+					<li class="space10"><b>Spatial Partitioning</b> - Tile Based, Object Grouping</li>
 					<li class="space10"><b>Ray Casting</b> - Linear Algebra</li>
-					<li class="space10"><b>Spatial Partitioning*</b></li>
-					<li class="space10"><b>Separating Axis Theorem*</b><li>
+					<li class="space10"><b>Separating Axis Theorem</b><li>
 				</ul>
 			</div>
 
@@ -280,15 +280,6 @@ game.start();</div>
 				<p><b>Collision Detection:</b> Rectangles</p>
 				<hr>
 				<img src="images/rectanglecollision.svg" style="height:90%; width:100%">
-				<!-- collides(A,B){
-			   ARight = A.x + A.w
-			   BRight = B.x + B.w
-			   ABottom = A.y + A.h
-			   BBottom = B.y + B.h
-			   return ARight > B.x &&
-              A.x < BRight &&
-              ABottom < B.y &&
-              A.y > BBottom} -->
 			</div>
 			<div id="code-collision-detection" class="step slide" data-x="4500" data-y="6000">
 				<p><b>Code:</b> Collision Detection</p>
@@ -407,17 +398,101 @@ button.addEventListener("click", function(){
 				<button id="btn-web-audio-load" class="btn btn-primary">Load</button>
 				<button id="btn-web-audio-play" class="btn btn-primary">Play</button>
 				<hr>
-				<div id="web-audio-editor" class="code-editor" style="height:400px">var sound = document.createElement('audio');
-document.body.appendChild(sound);
-sound.src = 'sounds/soundeffect.mp3';
+				<div id="web-audio-editor" class="code-editor" style="height:400px">var context = new window.webkitAudioContext();
+var volume = context.createGain();
+volume.gain.value = 0.5;
 
-var button = document.getElementById('btn-html-audio-play');
+var buffer = null;
+
+var load = function(){
+  var request = new XMLHttpRequest();
+  request.open('GET', 'sounds/soundeffect.mp3');
+  request.responseType = 'arraybuffer';
+  request.onload = function(){
+      context.decodeAudioData(request.response, function(decodedBuffer){
+          buffer = decodedBuffer;
+      });
+  };
+  request.send();
+};
+
+var play = function(){
+    var sound = context.createBufferSource();
+    sound.buffer = buffer;
+    sound.connect(volume);
+    volume.connect(context.destination);
+    sound.noteOn(0);
+};
+
+load();
+
+var button = document.getElementById('btn-web-audio-play');
 button.addEventListener("click", function(){
-    sound.play();
-});</div>
-
-
+    play();
+});;</div>
 			</div>
+			<div id="sprite-animation" class="step slide" data-x="4500" data-y="3000">
+				<p><b>Sprite Animation</b></p>
+				<hr>
+				<img src="images/sprite.png" style="width:100%; margin-top:50px" class="border">
+			</div>
+
+			<div id="code-sprite-animation" class="step slide" data-x="4500" data-y="1500">
+				<p><b>Code: </b> Sprite Animation</p>
+				<hr>
+				<div id="sprite-animation-editor" class="code-editor">var Sprite = function(image, sx, sy, sw, sh){
+    var me = this;
+    me.image = image;
+    me.draw = function(ctx, x, y){
+        ctx.drawImage(me.image, sx, sy, sw, sh, x, y, sw, sh);
+    };
+};
+
+var Animation = function(spritesheet, columns, rows, sw, sh){
+    var me = this;
+    var image = new Image();
+    image.src = spritesheet;    
+    var sprites = new Array(columns * rows);
+    var currIndex = 0;
+    
+    for(var i = 0; i < rows; i++){
+        for(var j = 0; j < columns; j++){
+            sprites[j+i*columns] = new Sprite(image, j*sw, i*sh, sw, sh);
+        }
+    }
+    
+    var tick = function(){
+        currIndex = (currIndex + 1) % sprites.length;
+    };
+    
+    me.draw = function(ctx, x, y){
+        tick();
+        sprites[currIndex].draw(ctx, x, y);
+        alert();
+    };
+    return me;
+};
+
+var canvas = document.getElementById('canvas5');
+var ctx = canvas.getContext('2d');
+
+var animation = new Animation('images/sprite.png', 5, 1, 44, 50);
+var interval = setInterval(function(){
+    ctx.save();
+    ctx.scale(3,3);
+    animation.draw(ctx, 50,50);    
+    ctx.restore();
+}, 200);</div>
+			</div>
+			<div id="example-sprite-animation" class="step slide" data-x="4500" data-y="0">
+				<p><b>Example:</b> Sprite Animations</p>
+				<button id="btn-animation" class="btn btn-primary">Start</button>
+				<hr>
+				<canvas id="canvas5" width="480" height="320" class="border">
+				</canvas>
+			</div>
+
+
 
 
 
@@ -484,6 +559,7 @@ button.addEventListener("click", function(){
 				var keycodeKonamiEditor = makeEditor('keycode-konami-editor');
 				var htmlAudioEditor = makeEditor('html-audio-editor', hideDemoCode);
 				var webAudioEditor = makeEditor('web-audio-editor', hideDemoCode);
+				var spriteAnimationEditor = makeEditor('sprite-animation-editor');
 				//var actorEditor = makeEditor('actor-editor');
 				//var sceneGraphEditor = makeEditor('scene-graph-editor');
 
@@ -521,7 +597,13 @@ button.addEventListener("click", function(){
 
 				$('#btn-web-audio-load').on('click', function(){
 					clearAnimation();
-					var code = htmlAudioEditor.getSession().getValue();
+					var code = webAudioEditor.getSession().getValue();
+					scriptHoister(code);
+				});
+
+				$('#btn-animation').on('click', function(){
+					clearAnimation();
+					var code = spriteAnimationEditor.getSession().getValue();
 					scriptHoister(code);
 				});
 
