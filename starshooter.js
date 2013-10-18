@@ -101,7 +101,7 @@ var Sprite = function(image, ctx, sx, sy, sw, sh){
 
     me.ctx = ctx;
     me.draw = function(x, y, width, height){
-        ctx.drawImage(me.image, sx, sy, sw, sh, x, y, width || sw, height || sh);
+        me.ctx.drawImage(me.image, sx, sy, sw, sh, x, y, width || sw, height || sh);
     };
 };
 
@@ -111,8 +111,10 @@ var Animation = function(spritesheet, ctx, columns, rows, sw, sh){
     image.src = spritesheet;    
     var sprites = new Array(columns * rows);
     var currIndex = 0;
-    me.speed = 100;
-    
+    me.speed = 50;
+    me.loop = false;
+    var lastTick = Date.now();
+
     for(var i = 0; i < rows; i++){
         for(var j = 0; j < columns; j++){
             sprites[j+i*columns] = new Sprite(image, ctx, j*sw, i*sh, sw, sh);
@@ -120,14 +122,24 @@ var Animation = function(spritesheet, ctx, columns, rows, sw, sh){
     }
     
     var tick = function(){
-        currIndex = (currIndex + 1) % sprites.length;
+    	var currentTime = Date.now();
+    	if(currentTime - lastTick > me.speed){
+        	currIndex = me.loop ? (currIndex + 1) % sprites.length : currIndex + 1;
+        	lastTick = currentTime;
+    	}
     };
     
     me.draw = function(x, y){
         tick();
-
-        sprites[currIndex].draw(x, y);
+        if(currIndex < sprites.length){
+        	sprites[currIndex].draw(x, y);
+    	}
     };
+
+    me.done = function(){
+    	return !me.loop && currIndex >= sprites.length;
+    };
+
     return me;
 };
 //var animation = new Animation('images/spriteexplosion.png', 5, 5, 45, 45);
@@ -141,6 +153,7 @@ var Game = function(canvasId){
     me.ctx = me.canvas.getContext('2d');
 
     me.actors = [];
+    me.animations = [];
     me.keys = [];
 
     me.score = 0;
@@ -150,6 +163,10 @@ var Game = function(canvasId){
         if(index > -1){
             me.actors.splice(index, 1);
         }
+    };
+
+    me.playAnimation = function(animation, x, y){
+    	me.animations.push({anim: animation, x: x, y: y});
     };
 
     var clear = function(){
@@ -177,6 +194,10 @@ var Game = function(canvasId){
 		me.actors.forEach(function(actor){
 			actor.update(delta, me);
 		});
+
+		me.animations = me.animations.filter(function(a){
+			return !a.anim.done();
+		});
 	};
 
 	me.draw = function(delta){
@@ -185,6 +206,10 @@ var Game = function(canvasId){
         // draw players, npcs, scenery, animations, etc.
         me.actors.forEach(function(actor){
             actor.draw(delta, me);
+        });
+
+        me.animations.forEach(function(a){
+        	a.anim.draw(a.x, a.y);
         });
 	};
 
@@ -262,12 +287,14 @@ var enemies = [];
 
 // Load resources
 var allYourBase = new Sound('sounds/soundeffect.mp3', 0.05);
-var soundTrack = new Sound('sounds/soundtrack.mp3',0.05, true);
-var laser = new Sound('sounds/laser.mp3', 0.05, false);
+var soundTrack = new Sound('sounds/soundtrack.mp3',0.2, true);
+var laser = new Sound('sounds/laser.mp3', 0.3, false);
 
 var shipSprite = new Sprite('images/fighter.png', game.ctx, 0, 0, 40, 40);
 var enemySprite = new Sprite('images/enemy.png', game.ctx, 0, 0, 40, 40);
-var explosion = new Animation('images/spriteexplosion.png', 5, 5, 45, 45);
+
+
+
 
 // Bullet helper
 var throttle = 500;//ms
@@ -319,7 +346,11 @@ var createEnemy = function(){
 				game.score += 100;
 				game.removeActor(bullets[i]);
 				bullets.splice(i, 1);
+				var explosion = new Animation('images/spriteexplosion.png', game.ctx, 5, 5, 45, 45);
+				game.playAnimation(explosion, enemy.pos.x, enemy.pos.y);
 				game.removeActor(enemy);
+				var index = enemies.indexOf(enemy);
+				enemies.splice(index,1);
 				break;
 			}
 		}
@@ -399,6 +430,8 @@ var createPlayer = function(){
 			if(enemies[i].collides(actor)){
 				game.removeActor(enemies[i]);
 				game.removeActor(actor);
+				var explosion = new Animation('images/spriteexplosion.png', game.ctx, 5, 5, 45, 45);
+				game.playAnimation(explosion, actor.pos.x, actor.pos.y);
 				game.lose();
 				allYourBase.play();	
 				break;
