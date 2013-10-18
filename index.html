@@ -253,10 +253,12 @@ game.start();</div>
 			<div id="code-actor" class="step slide" data-x="-1500" data-y="7500">
 				<p><b>Code:</b> Actor</p>
 				<hr>
-				<div id="actor-editor" class="code-editor">var Actor = function(){
+				<div id="actor-editor" class="code-editor">var Actor = function(x, y , width, height){
     var me = this;
-    me.pos = {x : 0, y: 0};
-    me.vel = {x : 0, y: 0};    
+    me.pos = {x : x || 0, y: y || 0};
+    me.vel = {x : 0, y: 0};
+    me.width = width || 0;
+    me.height = height || 0;
     return me;
 };
 
@@ -289,6 +291,26 @@ Actor.prototype.draw = function(delta){
 				<p><b>Collision Detection:</b> Rectangles</p>
 				<hr>
 				<img src="images/rectanglecollision.svg" style="height:90%; width:100%">
+			</div>
+			<div id="collision-1" class="step slide" data-x="3000" data-y="7500">
+				<p><b>Case 1</b></p>
+				<hr>
+				<img src="images/rectcollisionargtbl.svg" style="height:90%; width:100%">
+			</div>
+			<div id="collision-2" class="step slide" data-x="3000" data-y="9000">
+				<p><b>Case 2</b></p>
+				<hr>
+				<img src="images/rectcollisionalltbr.svg" style="height:90%; width:100%">
+			</div>
+			<div id="collision-3" class="step slide" data-x="4500" data-y="9000">
+				<p><b>Case 3</b></p>
+				<hr>
+				<img src="images/rectcollisionabgtbt.svg" style="height:90%; width:100%">
+			</div>
+			<div id="collision-4" class="step slide" data-x="4500" data-y="7500">
+				<p><b>Case 4</b></p>
+				<hr>
+				<img src="images/rectcollisionatltbb.svg" style="height:90%; width:100%">
 			</div>
 			<div id="code-collision-detection" class="step slide" data-x="4500" data-y="6000">
 				<p><b>Code:</b> Collision Detection</p>
@@ -338,7 +360,7 @@ window.addEventListener('keydown', function(e){
 });
 window.addEventListener('keyup', function(e){
 	var index;
-	if((index = keys.indexOf(e.keyCode)) > 0){
+	if((index = keys.indexOf(e.keyCode)) > -1){
 		keys.splice(index,1);
 	}
 });</div>
@@ -480,6 +502,19 @@ var interval = setInterval(function(){
 				<canvas id="canvas5" width="480" height="320" class="border">
 				</canvas>
 			</div>
+			<div id="pulling-it-together" class="step slide" data-x="4500" data-y="-1500">
+				<p><b>Code:</b> Game</p>
+				<hr>
+				<div id="game-editor" class="code-editor">
+				</div>
+			</div>
+			<div id="example-game" class="step slide" data-x="6000" data-y="-1500" >
+				<p><b>Example:</b> Game</p>
+				<button id="btn-game" class="btn btn-primary">Start</button>
+				<button id="btn-game-stop" class="btn btn-primary">Stop</button>
+				<hr>
+				<canvas class="border" id="game" width="600" height="400"></canvas>
+			</div>
 			<div id="multiplayer-meme" class="step" data-x="3000" data-y="0">
 				<img src="images/meme.jpg" style="width:100%">
 			</div>
@@ -536,7 +571,7 @@ var interval = setInterval(function(){
 
 			</div>
 			<div id="questions" class="step" data-x="3000" data-y="-4500">
-				<h5 style="width: 440px;font-size: 1000px;margin: auto;">?</h5>
+				<h5 style="width: 440px;font-size: 1000px;margin: auto;color:rgb(28, 150, 130);">?</h5>
 			</div>
 
 		</div>
@@ -604,10 +639,16 @@ var interval = setInterval(function(){
 				var htmlAudioEditor = makeEditor('html-audio-editor');
 				var webAudioEditor = makeEditor('web-audio-editor');
 				var spriteAnimationEditor = makeEditor('sprite-animation-editor');
-				//var actorEditor = makeEditor('actor-editor');
-				//var sceneGraphEditor = makeEditor('scene-graph-editor');
+				var gameEditor = makeEditor('game-editor');
 
-				
+				var request = new XMLHttpRequest();
+				request.open("GET", "starshooter.js");
+				request.responseType = 'text/plain'
+				request.onload = function(){
+					gameEditor.getSession().setValue(request.response);
+				}
+				request.send();
+
 				// Setup coding demos
 				$('#btn-drawing').on('click', function(){
 					clearAnimation();
@@ -650,6 +691,16 @@ var interval = setInterval(function(){
 					var code = spriteAnimationEditor.getSession().getValue();
 					scriptHoister(code);
 				});
+
+				$('#btn-game').on('click', function(){
+					clearAnimation();
+					var code = gameEditor.getSession().getValue();
+					scriptHoister(code);
+				})
+
+				$('#btn-game-stop').on('click', function(){
+					game.stop();
+				})
 
 
 
