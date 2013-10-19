@@ -335,10 +335,13 @@ fireBullet = function(x, y){
 var createEnemy = function(){
 	var enemy = new Actor(game.canvas.width + 20, Math.random()*game.canvas.height, 40, 40);
 	enemy.vel.x = -50;
-
+	var angle = 0;
+	var y = enemy.pos.y;
 	enemy.update = function(delta, game){
 		Actor.prototype.update.apply(enemy, [delta, game]);
 		if(enemy.pos.x < -90) game.removeActor(enemy);
+		angle += Math.PI/4 * delta/1000;
+		enemy.pos.y = 100*Math.sin(angle) - 200 + y; 
 
 		// Check if bullet killed this enemy
 		for(var i = 0; i < bullets.length; i++){
