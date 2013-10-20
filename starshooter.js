@@ -20,7 +20,10 @@ var Actor = function(x, y , width, height){
 };
 
 Actor.prototype.collides = function(actor){
-    return !((this.pos.x + this.width) < actor.pos.x || this.pos.x > (actor.pos.x + actor.width) || (this.pos.y + this.height) < actor.pos.y || this.pos.y > (actor.pos.y + actor.height));
+    return ((this.pos.x + this.width) > actor.pos.x && 
+    	this.pos.x < (actor.pos.x + actor.width) && 
+    	(this.pos.y + this.height) > actor.pos.y && 
+    	this.pos.y < (actor.pos.y + actor.height));
 };
 
 Actor.prototype.update = function(delta, game){
@@ -469,12 +472,13 @@ setInterval(function(){
 createPlayer();
 
 soundTrack.play();
+game.onstop = function(){
+	soundTrack.stop();
+}
 
-// delay game start for a few seconds and wait for resources to load
+// delay game start for a few seconds and wait for resources to load, you should write a loader
 setTimeout(function(){
 	game.start();	
 },4000);
 
-game.onstop = function(){
-	soundTrack.stop();
-}
+

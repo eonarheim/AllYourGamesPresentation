@@ -9,8 +9,6 @@
 	</head>
 	<!-- Notes
 	How do you build games in HTML5? In this talk we will learn about the basics of game development and how to apply it in a canvas based HTML5 game. We will be building a simple game live on the screen by leveraging JavaScript and new HTML5 features. We will learn about drawing to the HTML5 canvas, handling key input, maintaining frame rate, the subtleties of performing rotations and translations, setting up audio, sprite animations, basic game physics, and multiplayer support! I will also discuss some lessons in game programming that I learned the hard way so that you don’t have to. If you are interested in web game development, come learn about everything you need to make your first game –from the basics to the advanced.
-
-
 	-->
 
 	<body class="impress-not-supported">
@@ -68,43 +66,45 @@
 				<div id="drawing-editor" class="code-editor">var canvas = document.getElementById('canvas1');
 var ctx = canvas.getContext('2d');
 
-var erase = function(){
+var clear = function(){
     ctx.fillStyle = 'black';
-    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
 
-// rectangles
 ctx.fillStyle = 'white';
-ctx.fillRect(50, 50, 50, 50);
+// x, y, width, height
+ctx.fillRect(50, 50, 100, 100);
+clear();
 
-// circles
-erase();
 ctx.fillStyle = 'red';
+ctx.strokeStyle = 'white';
 ctx.beginPath();
-ctx.arc(50, 50, 10, 0, Math.PI*1);
+// x, y, radius, start, end, [anti-clockwise]
+ctx.arc(50, 50, 50, 0, Math.PI*2);
 ctx.closePath();
 ctx.fill();
+ctx.stroke();
 
-// text
-erase();
-ctx.fillStyle = 'white';
-ctx.fillText('Hello Canvas!', 100,100);
-
-// images
-erase();
-var image = new Image();
-image.src = './images/me.png';
-ctx.drawImage(image, 0, 0, 213, 500, 75, 0, 100, 150);
-
-// affine transformations
-erase();
 ctx.save();
-ctx.translate(100,100);
-ctx.rotate(Math.PI/4);
+ctx.translate(100, 100);
+ctx.rotate(Math.PI/2);
 ctx.scale(2, 2);
-ctx.fillStyle = 'white';
-ctx.fillText('Rotated Text', -50, -10);
-ctx.restore();</div>
+ctx.fillStyle = 'lime';
+// text, x, y
+ctx.fillText('Hello World', 0, 0);
+ctx.restore();
+
+
+var image = new Image();
+image.src = 'images/me.png';
+// image, xi, yi, wi, hi, xc, yc, wc, hc
+ctx.drawImage(image, 0, 0, 213, 500, 100, 0, 100, 150);
+
+
+
+
+
+</div>
 			</div>
 
 			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="2000">
@@ -136,6 +136,22 @@ var dy = 0;
 
 var running = true;
 (function mainloop(){
+    if(!running) return;
+    
+    window.requestAnimationFrame(mainloop);
+    
+    x += dx;
+    y += dy;
+    
+    dx += 0;
+    dy += 1;
+    
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = 'red';
+    ctx.fillRect(x, y, 50, 50);
+    
     
 })();</div>
 			</div>
@@ -168,17 +184,33 @@ var drawFPS = function(fps){
     ctx.fillStyle = 'red';
     ctx.fillText('FPS: ' + fps.toFixed(1), 5, 20);
 };
-
+var x = 0;
+var y = 0;
+var dx = 20; //px/sec
+var dy = 0;
 var update = function(delta){
-	// todo
+    var seconds = delta/1000;
+	x += dx * seconds;
+    y += dy * seconds;
 };
 
 var draw = function(){
-	// todo
+	ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y, 50, 50);
 };
 
+var lastTime = Date.now();
 var interval = setInterval(function(){
-	//todo
+    var now = Date.now();
+    var elapsed = now - lastTime;
+    // stuff
+    clear();
+    update(elapsed);
+    draw();
+    drawFPS(1/(elapsed/1000));
+    
+    lastTime = now;
+    
 }, 16);	</div>
 			</div>
 
@@ -353,9 +385,13 @@ var collides = function(rectA, rectB){
 			<div id="code-handling-key-events-vector" class="step slide" data-x="6000" data-y="4500">
 				<p><b>Handling Key Events:</b> Key Vector</p>
 				<div id="keycode-vector-editor" class="code-editor">var keys = [];
+// clear keyDown vector on every update
+var keyDown =[];
+
 window.addEventListener('keydown', function(e){
 	if(keys.indexOf(e.keyCode) === -1){
 		keys.push(e.keyCode);
+        keyDown.push(e.keyCode);
 	}
 });
 window.addEventListener('keyup', function(e){
@@ -374,7 +410,7 @@ window.addEventListener('keyup', function(e){
 	var konami = "38,38,40,40,37,39,37,39,66,65";
 	window.addEventListener('keydown', function(e) {
         keys.push(e.keyCode);
-        if(keys.toString().indexOf(konami) >= 0 ){
+        if(keys.join(',').indexOf(konami) >= 0 ){
             keys.length = 0;
             game.start();
         }
@@ -410,7 +446,12 @@ window.addEventListener('keyup', function(e){
 				<button id="btn-html-audio-load" class="btn btn-primary">Load</button>
 				<button id="btn-html-audio-play" class="btn btn-primary">Play</button>
 				<hr>
-				<div id="html-audio-editor" class="code-editor" style="height:400px">
+				<div id="html-audio-editor" class="code-editor" style="height:400px">var sound = document.createElement('audio');
+document.body.appendChild(sound);
+sound.src = 'sounds/soundeffect.mp3';
+sound.volume = 1.0;
+
+
 var button = document.getElementById('btn-html-audio-play');
 button.addEventListener("click", function(){
     sound.play();
@@ -423,11 +464,25 @@ button.addEventListener("click", function(){
 				<button id="btn-web-audio-play" class="btn btn-primary">Play</button>
 				<hr>
 				<div id="web-audio-editor" class="code-editor" style="height:400px">var context = new window.webkitAudioContext();
+var buffer = null;
 
 var load = function(){
+    var request = new XMLHttpRequest();
+    request.open('GET', 'sounds/soundeffect.mp3');
+    request.responseType = 'arraybuffer';
+    request.onload = function(){
+        context.decodeAudioData(request.response, function(decodedData){
+            buffer = decodedData;
+        });
+    };
+    request.send();
 };
 
 var play = function(){
+    var sound = context.createBufferSource();
+    sound.buffer = buffer;
+    sound.connect(context.destination);
+    sound.start(0);
 };
 
 load();
@@ -574,9 +629,11 @@ var interval = setInterval(function(){
 			</div>
 			<div id="questions" class="step" data-x="3000" data-y="-4500">
 				<h5 style="width: 440px;font-size: 1000px;margin: auto;color:rgb(28, 150, 130);">?</h5>
-
 			</div>
 
+		</div>
+		<div class="hint">
+			<p>Use the "Page Up" and "Page Down" keys to navigate.
 		</div>
 
 		<script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
@@ -631,7 +688,7 @@ var interval = setInterval(function(){
 				};
 
 				var hideDemoCode = true;
-				var drawingEditor = makeEditor('drawing-editor', hideDemoCode);
+				var drawingEditor = makeEditor('drawing-editor');
 				var movementEditor = makeEditor('movement-editor');
 				var timingEditor = makeEditor('timing-editor');
 				var gameloopEditor = makeEditor('gameloop-editor');
@@ -689,16 +746,23 @@ var interval = setInterval(function(){
 					scriptHoister(code);
 				});
 
-				$('#btn-animation').on('click', function(){
+				$('#btn-animation').on('click', function(){					
 					clearAnimation();
 					var code = spriteAnimationEditor.getSession().getValue();
 					scriptHoister(code);
 				});
 
 				$('#btn-game').on('click', function(){
+					try{
+						game.stop();
+					}catch(e){
+						//swallow 
+						// there is a better way to do this :/
+					}
 					clearAnimation();
 					var code = gameEditor.getSession().getValue();
 					scriptHoister(code);
+					$('#btn-game').blur();
 				})
 
 				$('#btn-game-stop').on('click', function(){
