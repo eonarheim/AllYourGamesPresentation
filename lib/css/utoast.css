@@ -1,0 +1,35 @@
+/**
+uToast.css (MicroToast) - v0.1
+https://github.com/eonarheim/uToast
+Author: Erik Onarheim (@ErikOnarheim)
+License 3-Clause BSD
+**/
+
+#toast-container {
+   position: absolute;
+   width: 300px;
+   top: 30px;
+   left: 30px;
+}
+
+.toast  {
+   padding: 10px;
+   margin: 10px;
+
+   color: white;   
+   border-radius: 5px;
+   border: 1px solid transparent;  
+   font-size: 18pt;
+}
+
+.toast.info {
+   background-color: rgb(61, 144, 190);
+}
+
+.toast.warn {
+   background-color: rgb(180, 192, 42);
+}
+
+.toast.error {
+   background-color: rgb(185, 38, 32);
+}
