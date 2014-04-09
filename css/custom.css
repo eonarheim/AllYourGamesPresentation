@@ -72,3 +72,24 @@ canvas {
 .toast {
    font-family: "Quicksand", sans-serif;
 }
+
+.btn {
+   display: inline-block;
+   padding: 6px 12px;
+   font-size: 14px;
+   font-weight: normal;
+   line-height: 1.428571429;
+   text-align: center;
+   white-space: nowrap;
+   vertical-align: middle;
+   cursor: pointer;
+   border: 1px solid transparent;
+   border-radius: 4px;
+   background-color: 
+}
+
+.btn-blue {
+   color: #ffffff;
+   background-color: #428bca;
+   border-color: #357ebd;
+}

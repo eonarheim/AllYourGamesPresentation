@@ -42,7 +42,7 @@
                <img class="big" src="img/cats.png">
 					<h3>Building Games in HTML5 and JavaScript</h3>
 					<p>
-						<small>Created by <a href="http://erikonarheim.com">Erik Onarheim</a> / <a href="http://twitter.com/ErikOnarheim">@ErikOnarheim</a></small>
+						<small><a href="http://erikonarheim.com">Erik Onarheim</a> / <a href="http://twitter.com/ErikOnarheim">@ErikOnarheim</a></small>
 					</p>
                <small><a href="http://erikonarheim.com">erikonarheim.com</a></small>
 				</section>
@@ -147,6 +147,8 @@ ctx.rotate(Math.PI/2);
 ctx.scale(2, 2);
 ctx.fillStyle = 'lime';
 // text, x, y
+//ctx.textAlign = 'right';
+//ctx.font = '20px consolas';
 ctx.fillText('Hello World', 0, 0);
 ctx.restore();
 
@@ -203,6 +205,7 @@ var running = true;
 })();</div>
                </section>
                <section>
+                  <h2>BOOYAH!</h2>
                   <canvas id="canvas2" width="800" height="600" class="border"></canvas>
                </section>
                
@@ -231,7 +234,7 @@ var drawFPS = function(fps){
     ctx.restore();
 };
 var x = 0;
-var y = 0;
+var y = 300;
 var dx = 20; //px/sec
 var dy = 0;
 var update = function(delta){
@@ -241,8 +244,8 @@ var update = function(delta){
 };
 
 var draw = function(){
-   ctx.fillStyle = 'blue';
-    ctx.fillRect(x, y, 50, 50);
+   ctx.fillStyle = 'lime';
+    ctx.fillRect(x, y, 200, 200);
 };
 
 var lastTime = Date.now();
@@ -260,6 +263,7 @@ var interval = setInterval(function(){
 }, 16);  </div>
                </section>               
                <section>
+                  <h2>Magic!</h2>
                   <canvas id="canvas3" width="800" height="600" class="border"></canvas>
                </section>
 
@@ -267,15 +271,79 @@ var interval = setInterval(function(){
 
             <section data-transition="linear" data-background-transition="slide" data-background="#486627">
                <h2>Game Loop</h2>
-               <div id="drawing-editor" class="taller code-editor">
-               </div>
+               <div id="game-loop-editor" class="taller code-editor">// request animation frame polyfill
+if(!window.requestAnimationFrame){
+    window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame || 
+    window.msRequestAnimationFrame || 
+    function(callback){ 
+        window.setInterval(callback, 1000/60);
+    };
+}
+
+var Game = function(){
+   var me = this;
+    var running = false;
+   me.update = function(delta){
+      // update state of the game
+      // including players, npcs, scenery, animations, etc.
+   };
+
+   me.draw = function(delta){
+      // draw the game
+        // draw players, npcs, scenery, animations, etc.
+   };
+
+   me.start = function(){
+        running = true;
+      var lastTime =  Date.now();
+      (function mainloop(){
+            if(!running) return;
+            
+            window.requestAnimationFrame(mainloop);
+            
+         // Get the time to calculate time-elapsed
+         var now = Date.now();
+
+         var elapsed = Math.floor(now - lastTime);
+
+         me.update(elapsed); 
+         me.draw(elapsed);
+
+         lastTime = now;
+      })(); 
+   };
+    
+    me.stop = function(){
+        running = false;
+    };
+
+   return me;
+};
+
+var game = new Game();
+game.start();</div>
 
             </section>
 
             <section data-transition="linear" data-background-transition="slide" data-background="#4EB55B">
                <h2>Actor/Entity</h2>
-               <div id="drawing-editor" class="taller code-editor">
-               </div>
+               <div id="actor-editor" class="taller code-editor">var Actor = function(x, y , width, height){
+    var me = this;
+    me.pos = {x : x || 0, y: y || 0};
+    me.vel = {x : 0, y: 0};
+    me.width = width || 0;
+    me.height = height || 0;
+    return me;
+};
+
+Actor.prototype.update = function(delta){
+    
+};
+
+Actor.prototype.draw = function(delta){
+    
+};</div>
 
             </section>
 
@@ -335,18 +403,303 @@ var collides = function(rectA, rectB){
 };</div>
             </section>
 
+            <section>
+               <section>
+                  <h2>Simple AABB</h2>
+                  <img class="biggest no-border" src="img/easycollision.svg">
+               </section>
+               <section>
+                  <img class="biggest no-border" src="img/easycollision2.svg">
+               </section>
+               <section>
+                  <h2>Implementation</h2>
+                  <div id="easy-collision-detection-editor" class="tall code-editor">var BoundingBox = function(left, top, right, bottom){
+    var me = this;
+    me.left = left;
+    me.top = top;
+    me.right = right;
+    me.bottom = bottom;
+    return me;
+};
 
+BoundingBox.prototype.getWidth = function() {
+   return this.right - this.left;
+}
+
+BoundingBox.prototype.getHeight = function() {
+   return this.bottom - this.top;
+}
+
+var collides = function(bb1, bb2){
+   var bounds = new BoundingBox(
+      Math.min(bb1.left, bb2.left),
+      Math.min(bb1.top, bb2.top),
+      Math.max(bb1.right, bb2.right),
+      Math.max(bb1.bottom, bb2.bottom)
+   );
+
+   return (bounds.getWidth() < bb1.getWidth() + bb2.getWidth() &&
+           bounds.getHeight() < bb1.getHeight() + bb1.getHeight());
+    
+};</div>
+               </section>
+            </section>
+            <section>
+               <h2>Spatial Partitioning</h2>
+               <img class="biggest no-border" src="img/spatialpartitioning.svg">
+            </section>
+            <section>
+               <h2>Object Grouping</h2>
+               <img class="biggest no-border" src="img/spatialpartitioning2.svg">
+            </section>
+
+            <section>
+               <h2>Key Events</h2>
+               <div id="key-events-editor" class="tall code-editor">var keys = [];
+// clear keyDown vector on every update
+var keyDown =[];
+
+window.addEventListener('keydown', function(e){
+   if(keys.indexOf(e.keyCode) === -1){
+      keys.push(e.keyCode);
+        keyDown.push(e.keyCode);
+   }
+});
+window.addEventListener('keyup', function(e){
+   var index;
+   if((index = keys.indexOf(e.keyCode)) > -1){
+      keys.splice(index,1);
+   }
+});</div>
+            </section>
+
+            <section>
+               <section>
+                  <h2>Key Combinations</h2>
+                  <div id="konami-editor" class="tall code-editor">(function(){
+      var game = new Snake('canvas4');
+      var keys = [];
+      var konami = "38,38,40,40,37,39,37,39,66,65";
+      window.addEventListener('keydown', function(e) {
+           keys.push(e.keyCode);
+           if(keys.join(',').indexOf(konami) >= 0 ){
+               keys.length = 0;
+               game.start();
+           }
+      });
+   })();
+
+   // Courtesy Paul Irish 
+   // http://www.paulirish.com/2009/cornify-easter-egg-with-jquery/</div>
+               </section>
+               <section>
+                  <h2>Konami Code</h2>
+                  <canvas id="canvas4" width="800" height="600" class="border"></canvas>
+               </section>
+            </section>
+            <section>
+               <h2>Sound</h2>
+               <ul>
+                  <li class="fragment">Web Audio API</li>
+                  <li class="fragment">HTML5 Audio</li>
+                  <li class="fragment">Falbacks</li>
+                  <ul>
+                     <p class="fragment">SoundManager2</p>
+                     <p class="fragment">jPlayer</p>
+                     <p class="fragment">MediaElement.js</p>            
+                  </ul>                  
+               </ul>
+               <aside class="notes">
+                  SoundManager2 - Flash Fallback 
+                  jPlayer - Flash Fallback jquery plugin (audio and video)
+                  MediaElement - Flash or Silverlight that mimics the HTML5 audio and video tags
+               </aside>
+
+            </section>
+            <section>
+               <section>
+                  <h2>HTML5 Audio</h2>
+                  <img class="biggest no-border" src="img/html5player.png">
+                  <span class="small">Image from <a href="http://www.hanselminutes.com">http://www.hanselminutes.com</a></span>
+               </section>
+               <section>
+                  <h2>Code</h2>
+
+                  <div id="html5-audio-editor" class="tall code-editor">var sound = new Audio();
+sound.src = 'sounds/soundeffect.mp3';
+sound.volume = 1.0;
+
+
+var button = document.getElementById('btn-html-audio-play');
+button.addEventListener("click", function(){
+    sound.play();
+});</div>
+               <button class="btn btn-blue" id="btn-html-audio-play">Play</button>
+               </section>
+            </section>
+
+            <section>
+               <section>
+                  <h2>Web Audio Api</h2>
+                  <img class="biggest no-border" src="img/audiocontext.svg">
+               </section>
+               <section>
+                  <h2>Code</h2>
+                  <div id="web-audio-api-editor" class="tall code-editor">var context = new window.webkitAudioContext();
+var buffer = null;
+
+var load = function(){
+    var request = new XMLHttpRequest();
+    request.open('GET', 'sounds/soundeffect.mp3');
+    request.responseType = 'arraybuffer';
+    request.onload = function(){
+        context.decodeAudioData(request.response, function(decodedData){
+            buffer = decodedData;
+        });
+    };
+    request.send();
+};
+
+var play = function(){
+    var sound = context.createBufferSource();
+    sound.buffer = buffer;
+    sound.connect(context.destination);
+    sound.start(0);
+};
+
+load();
+
+var button = document.getElementById('btn-web-audio-play');
+button.addEventListener("click", function(){
+    play();
+});</div>
+               <button class="btn btn-blue" id="btn-web-audio-play">Play</button>
+               </section>
+
+            </section>
+
+            <section>
+               <section>
+                  <h2>Sprite Animation</h2>
+                  <img class="biggest no-border" src="img/bombspritesheet.png">
+               </section>
+               <section>
+                  <h2>Code</h2>
+                  <div id="sprite-animation-editor" class="tall code-editor">var Sprite = function(image, sx, sy, sw, sh){
+    var me = this;
+    me.image = image;
+    me.draw = function(ctx, x, y){
+        ctx.drawImage(me.image, sx, sy, sw, sh, x, y, sw, sh);
+    };
+};
+
+var Animation = function(spritesheet, columns, rows, sw, sh){
+    var me = this;
+    var image = new Image();
+    image.src = spritesheet;    
+    var sprites = new Array(columns * rows);
+    var currIndex = 0;
+    
+    for(var i = 0; i < rows; i++){
+        for(var j = 0; j < columns; j++){
+            sprites[j+i*columns] = new Sprite(image, j*sw, i*sh, sw, sh);
+        }
+    }
+    
+    var tick = function(){
+        currIndex = (currIndex + 1) % sprites.length;
+    };
+    
+    me.draw = function(ctx, x, y){
+        tick();
+        sprites[currIndex].draw(ctx, x, y);
+    };
+    return me;
+};
+
+var canvas = document.getElementById('canvas5');
+var ctx = canvas.getContext('2d');
+
+var clear = function(){
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+var animation = new Animation('img/bombspritesheet.png', 3, 4, 280, 237.5);
+var interval = setInterval(function(){
+    clear();
+    ctx.save();
+    ctx.translate(250, 200);
+    ctx.scale(1,1);
+    animation.draw(ctx, 0, 0);    
+    ctx.restore();
+}, 90);</div>
+               </section>
+               <section>
+                  <h2>Boom!</h2>
+                  <canvas id="canvas5" width="800" height="600" class="border"></canvas>
+               </section>
+
+            </section>
+
+            <section>
+               <section>
+                  <h2>Making a Game</h2>
+                  <div id="making-a-game-editor" class="tall code-editor">
+                  </div>
+               </section>
+               <section>
+                  <h2>StarShootr</h2>
+                  <canvas id="game" width="800" height="600" class="border"></canvas>
+                  <button id="stop-starshootr" class="btn btn-blue">Pause</button>
+               </section>
+            </section>
 
             <section>
                <h2>Resources</h2>
+               <ul>
+                  <li>Presentation</li>
+                  <ul class="fragment">
+                     <li>https://github.com/eonarheim/</li>
+                  </ul>
+
+                  <li class="fragment">Game Libraries</li>
+                  <ul class="fragment">
+                     <li>Excalibur</li>
+                     <li>Impact.js</li>
+                     <li>Phaser.io</li>
+                     <li>Pixi.js</li>
+                     <li>Babylon.js</li>
+                  </ul>
+                  <li class="fragment">Other Libraries</li>
+                  <ul class="fragment">
+                     <li>SoundManager2</li>
+                     <li>Reveal.js</li>
+                     <li>Ace Code Editor</li>
+                  </ul>
+
+                  <li class="fragment">Books</li>
+                  <ul class="fragment">
+                     <li>Core HTML5 Canvas - David Geary</li>
+                     <li>Secrets of a JavaScript Ninja - John Resig</li>
+                     <li>Effective JavaScript - David Herman</li>
+                     <li>JavaScript: The Good Parts - Douglass Crockford</li>
+                  </ul>
+                  <li class="fragment">YouTube Videos</li>
+                  <ul class="fragment">
+                     <li>Turning the Web up to 11</li>
+                     <li>Diving Deep into Canvas</li>
+                  </ul>
+
+               </ul>
 
             </section>
             <section>
-               <h2>The End?</h2>
+               <h2>Thanks!</h2>
+
                <h5>ERIK ONARHEIM</h5>
             </section>
 
-				<!-- Example of nested vertical slides -->
+				<!-- 
 				<section>
 					<section>
 						<h2>Vertical Slides</h2>
@@ -631,17 +984,20 @@ function linkify( selector ) {
 				<section>
 					<h1>THE END</h1>
 					<h3>BY Hakim El Hattab / hakim.se</h3>
-				</section>
+				</section> -->
 
 			</div>
 
 		</div>
 
       <script src="lib/js/utoast.js"></script>
+      <script src="lib/js/snake.js"></script>
 		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+		<script src="js/reveal.js"></script>
 
 		<script>
+
+
 
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
@@ -668,6 +1024,13 @@ function linkify( selector ) {
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
+      
+         Reveal.configure({
+           keyboard: {
+             83: null, // do nothing on S
+             66: null, // disable pause mode on b
+           }
+         });
 
 		</script>
       <script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
@@ -721,10 +1084,34 @@ function linkify( selector ) {
             };
 
             var hideDemoCode = true;
+            
             var drawingEditor = makeEditor('drawing-editor');
             var movementEditor = makeEditor('movement-editor');
-            var collisionDetectionEditor = makeEditor('collision-detection-editor');
             var timingEditor = makeEditor('timing-editor');
+
+            var gameLoopEditor = makeEditor('game-loop-editor');
+            var actorEditor = makeEditor('actor-editor');
+
+            var collisionDetectionEditor = makeEditor('collision-detection-editor');
+            var easyCollisionDetectionEditor = makeEditor('easy-collision-detection-editor');
+
+            var keyEventsEditor = makeEditor('key-events-editor');
+            var konamiEditor = makeEditor('konami-editor');
+
+            var html5AudioEditor = makeEditor('html5-audio-editor');
+            var webAudioApiEditor = makeEditor('web-audio-api-editor');            
+
+            var spriteAnimationEditor = makeEditor('sprite-animation-editor');
+
+            var makingAGameEditor = makeEditor('making-a-game-editor');
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "lib/js/starshooter.js");
+            request.responseType = 'text/plain'
+            request.onload = function(){
+               makingAGameEditor.getSession().setValue(request.response);
+            }
+            request.send();
 
 
             document.getElementById('canvas1').addEventListener('click', function(){
@@ -742,6 +1129,25 @@ function linkify( selector ) {
             document.getElementById('canvas3').addEventListener('click', function(){
                clearAnimation();
                var code = timingEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+
+            document.getElementById('canvas4').addEventListener('click', function(){
+               clearAnimation();
+               var code = konamiEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('canvas5').addEventListener('click', function(){
+               clearAnimation();
+               var code = spriteAnimationEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('game').addEventListener('click', function(){
+               clearAnimation();
+               var code = makingAGameEditor.getSession().getValue();
                scriptHoister(code);
             });
       </script>
