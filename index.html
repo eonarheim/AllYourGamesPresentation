@@ -1,126 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 	<head>
-		<meta name="description" content="HTML5: All Your Games Are Belong to Us">
+		<meta charset="utf-8">
+
+		<title>HTML5: All Your Games Are Belong To Us</title>
+
+		<meta name="description" content="Building Web Games with HTML and JavaScript">
 		<meta name="author" content="Erik Onarheim">
-		<link rel="stylesheet" type="text/css" href="css/presentation.css">
-		<link rel="stylesheet" type="text/css" href="css/custom.css">
 
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+      <!-- Custom CSS for HTML:All Your Games -->
+      <link rel="stylesheet" type="text/css" href="css/custom.css">
+      <link rel="stylesheet" type="text/css" href="lib/css/utoast.css">
+
+		
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
 	</head>
-	<!-- Notes
-	How do you build games in HTML5? In this talk we will learn about the basics of game development and how to apply it in a canvas based HTML5 game. We will be building a simple game live on the screen by leveraging JavaScript and new HTML5 features. We will learn about drawing to the HTML5 canvas, handling key input, maintaining frame rate, the subtleties of performing rotations and translations, setting up audio, sprite animations, basic game physics, and multiplayer support! I will also discuss some lessons in game programming that I learned the hard way so that you don’t have to. If you are interested in web game development, come learn about everything you need to make your first game –from the basics to the advanced.
-	-->
 
-	<body class="impress-not-supported">
+	<body>
 
-		<div id="impress">
-			<div id="introduction" class="step slide" data-x="-1500" data-y="-1500">
-			    <p><b>HTML5: All Your Games Are Belong to Us</b></p>
-			    <p> Building Games in HTML5 and JavaScript
-			    
-			    <br/>
-			    <ul>
-			    	<li><img src="images/cats.png" class="right-image border" style="
-	width: 600px;"></li>
-			    	<li>Erik Onarheim - Software Developer</li>
-			    	<li>@ErikOnarheim</li>
-			    	<li>erikonarheim.com</li>
-			    </ul>
-				</p>
-			</div>
-			<div id="about" class="step slide" data-x="-1500" data-y="0">
-				<p><b>About Me</b></p>
-				<hr/>
-				<ul>
-					<li><img src="images/me.png" class="right-float border"></li>
-					<li class="space10">Software Developer @ General Mills</li>
-					<li class="space10">Video Game Enthusiast</li>
-					<li class="space10">Excalibur js <br/> <a href="http://www.github.com/eonarheim/excalibur">github.com/eonarheim/excalibur</a></li>
-					<li class="space10">Artist</li>
-					<li class="space10">Hacker</li>
-				</ul>
+		<div class="reveal">
 
-			</div>
-			<div id="building-blocks" class="step slide" data-x="-1500" data-y="1500">
-				<p><b>HTML5 Games: The Building Blocks</b></p>
-				
-				<hr/>
-				<ul style="margin-top:100px">
-					<li><img src="images/buildingblocks.png" style="width:100%"></li>
-				<ul>
-			</div>
-			<div id="canvas-overview" class="step slide" data-x="-1500" data-y="3000" >
-				<p><b>Canvas</b></p>
-				<hr>
-				<img src="images/canvas.svg" style="width:100%">
-			</div>
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2>HTML5: All Your Games Are Belong To Us</h2>
+               <img class="big" src="img/cats.png">
+					<h3>Building Games in HTML5 and JavaScript</h3>
+					<p>
+						<small><a href="http://erikonarheim.com">Erik Onarheim</a> / <a href="http://twitter.com/ErikOnarheim">@ErikOnarheim</a></small>
+					</p>
+               <small><a href="http://erikonarheim.com">erikonarheim.com</a></small>
+				</section>
 
-			<div id="canvas-visual-aid" class="step" data-x="-1500" data-y="4500">
-				<img src="images/canvasresolution.png" style="width:100%">
-			</div>
+				<section>
+					<h2>About Me</h2>
+               <hr>
+               <img class="left image" src="img/me.png">
+               <p class="fragment">Software Developer</p>
+               <p class="fragment">General Mills</p>
+               <p class="fragment">Video Game Enthusiast</p>
+               <p class="fragment">Artist</p>
+               <p class="fragment">Hacker</p>
+               <div class="fragment">
+                  <div>ExcaliburJS.com</div>
+                  <img class="no-border small" src="img/excalibur-title-dark.png">
+               </div>				
 
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
 
-			<div id="code-drawing" class="step slide" data-x="0" data-y="0">
-				<p><b>Code:</b> Drawing</p>
-				<hr>
-				<div id="drawing-editor" class="code-editor">var canvas = document.getElementById('canvas1');
-var ctx = canvas.getContext('2d');
+            <section>
+               <section>
+                  <h2>Zero to Hero</h2>
+                  <img class="big" src="img/hercules.jpg">
+               </section>
+               <section>
+                  <img class="big" src="img/otherhercules.jpg">
+               </section>
+            </section>
 
-var clear = function(){
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-};
+            <section>
+               <h2>HTML5 Games</h2>
+               <img class="big" src="img/js.png">
+            </section>
 
-ctx.fillStyle = 'white';
-// x, y, width, height
-ctx.fillRect(50, 50, 100, 100);
-clear();
+            <section>
+               <h2>The Canvas</h2>
+               <img class="bigger no-border" src="img/canvas.svg">
+            </section>
 
-ctx.fillStyle = 'red';
-ctx.strokeStyle = 'white';
-ctx.beginPath();
-// x, y, radius, start, end, [anti-clockwise]
-ctx.arc(50, 50, 50, 0, Math.PI*2);
-ctx.closePath();
-ctx.fill();
-ctx.stroke();
+            <section>
+               <h2>Tale of Two Widths</h2>
 
-ctx.save();
-ctx.translate(100, 100);
-ctx.rotate(Math.PI/2);
-ctx.scale(2, 2);
-ctx.fillStyle = 'lime';
-// text, x, y
-ctx.fillText('Hello World', 0, 0);
-ctx.restore();
+               <div>
+                  <img class="left short" src="img/mrfantastic.jpg">
+                  <div data-markdown class="right big">
+                     <script type="text/template">
+                     ```
+                     <canvas width="100" height="100"></canvas>
+                     canvas {
+                        width: 100px;
+                        height: 100px;
+                     }
+                     ```
 
+                     ```
+                     <canvas width="100" height="100"></canvas>
+                     canvas {
+                        width: 300px;
+                        height: 100px;
+                     }
+                     ```
+                     </script>
+                  </div>
+               </div>
+               <img class="left short" src="img/mrfantasticstretch.jpg">
+            </section>
 
-var image = new Image();
-image.src = 'images/me.png';
-// image, xi, yi, wi, hi, xc, yc, wc, hc
-ctx.drawImage(image, 0, 0, 213, 500, 100, 0, 100, 150);
+            <section>
+               <h2>Show me the code</h2>
+               <img class="biggest" src="img/code.gif">
+               
+            </section>
+            <section data-transition="linear" data-background-transition="slide" data-background="#007777">
+               <section>
+               <h2>Let's Draw Something</h2>
+               <div id="drawing-editor" class="taller code-editor"></div>
+               </section>
+               <section data-transition="linear" data-background-transition="slide">
+                  <h2>Bam!</h2>
+                  <canvas id="canvas1" width="800" height="600" class="border"></canvas>
+               </section>
 
+            </section>
 
-
-
-
-</div>
-			</div>
-
-			<div id="example-drawing" class="step slide" data-x="0" data-y="0" data-z="2000">
-				<p><b>Example:</b> Drawing</p>
-				<button id="btn-drawing" class="btn btn-primary">Start</button>
-				<hr/>
-				<canvas id="canvas1" width="480" height="320" class="border">
-				</canvas>
-			</div>
-
-			
-
-			<div id="time-based-movement" class="step slide" data-x="0" data-y="1500">
-				<p><b>Code:</b> Movement</p>
-				<hr>
-				<div id="movement-editor" class="code-editor">if(!window.requestAnimationFrame){
+            <section data-transition="linear" data-background-transition="slide" data-background="#3D9999">
+               <section>
+                  <h2>Make it Move!</h2>
+                  <div id="movement-editor" class="taller code-editor">if(!window.requestAnimationFrame){
     window.requestAnimationFrame = webkitRequestAnimationFrame ||
     mozRequestAnimationFrame || msRequestAnimationFrame || 
     function(callback){window.setInterval(callback, 1000/60)};
@@ -154,26 +168,27 @@ var running = true;
     
     
 })();</div>
-			</div>
+               </section>
+               <section>
+                  <h2>BOOYAH!</h2>
+                  <canvas id="canvas2" width="800" height="600" class="border"></canvas>
+               </section>
+               
 
-			<div id="example-time-based-movement" class="step slide" data-x="0" data-y="1500" data-z="2000">
-				<p><b>Example:</b> Movement</p>
-				<button id="btn-time-based-movement" class="btn btn-primary">Start</button>
-				<hr/>
-				<canvas id="canvas2" width="480" height="320" class="border">
-				</canvas>
-			</div>
+            </section>
 
-			<div id="time-fps" class="step slide" data-x="0" data-y="3000">
-				<p><b>Timing</b></p>
-				<hr>
-				<img src="images/fpscalculation.svg" style="width:100%; margin-top:50px" class="border">
-			</div>
-
-			<div id="timing" class="step slide" data-x="0" data-y="4500">
-				<p><b>Code:</b> Timing</p>
-				<hr/>
-				<div id="timing-editor" class="code-editor">var canvas = document.getElementById('canvas3');
+            <section data-transition="linear" data-background-transition="slide" data-background="rgb(77, 126, 101)">
+               <section>
+                  <h2>Timing is everthing</h2>
+                  <img class="biggest" src="img/timing.gif">
+               </section>
+               <section>
+                  <h2>Timing Calculation</h2>
+                  <img class="biggest no-border" src="old/images/fpscalculation.svg">
+               </section>
+               <section>
+                  <h2>Time Based Movement</h2>
+                  <div id="timing-editor" class="taller code-editor">var canvas = document.getElementById('canvas3');
 var ctx = canvas.getContext('2d');
 
 var clear = function(){
@@ -181,22 +196,25 @@ var clear = function(){
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
 var drawFPS = function(fps){
+    ctx.save();
+    ctx.scale(2, 2);
     ctx.fillStyle = 'red';
     ctx.fillText('FPS: ' + fps.toFixed(1), 5, 20);
+    ctx.restore();
 };
 var x = 0;
-var y = 0;
+var y = 300;
 var dx = 20; //px/sec
 var dy = 0;
 var update = function(delta){
     var seconds = delta/1000;
-	x += dx * seconds;
+   x += dx * seconds;
     y += dy * seconds;
 };
 
 var draw = function(){
-	ctx.fillStyle = 'blue';
-    ctx.fillRect(x, y, 50, 50);
+   ctx.fillStyle = 'lime';
+    ctx.fillRect(x, y, 200, 200);
 };
 
 var lastTime = Date.now();
@@ -211,24 +229,18 @@ var interval = setInterval(function(){
     
     lastTime = now;
     
-}, 16);	</div>
-			</div>
+}, 16);  </div>
+               </section>               
+               <section>
+                  <h2>Magic!</h2>
+                  <canvas id="canvas3" width="800" height="600" class="border"></canvas>
+               </section>
 
-			<div id="example-timing" class="step slide" data-x="0" data-y="4500" data-z="2000">
-				<p><b>Example:</b> Timing</p>
-				<button id="btn-timing" class="btn btn-primary">Start</button>
-				<hr>
-				<canvas id="canvas3" width="480" height="320" class="border">
-				</canvas>
-			</div>
-			<div id="stucture" class="step" data-x="0" data-y="6000">
-				<img src="images/spaghetticode.jpg" style="width:100%">
-			</div>
+            </section>
 
-			<div id="code-gameloop" class="step slide" data-x="-1500" data-y="6000">
-				<p><b>Code:</b> Game Loop</p>
-				<hr>
-				<div id="gameloop-editor" class="code-editor">// request animation frame polyfill
+            <section data-transition="linear" data-background-transition="slide" data-background="#486627">
+               <h2>Game Loop</h2>
+               <div id="game-loop-editor" class="taller code-editor">// request animation frame polyfill
 if(!window.requestAnimationFrame){
     window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame || 
@@ -239,53 +251,53 @@ if(!window.requestAnimationFrame){
 }
 
 var Game = function(){
-	var me = this;
+   var me = this;
     var running = false;
-	me.update = function(delta){
-		// update state of the game
-		// including players, npcs, scenery, animations, etc.
-	};
+   me.update = function(delta){
+      // update state of the game
+      // including players, npcs, scenery, animations, etc.
+   };
 
-	me.draw = function(delta){
-		// draw the game
+   me.draw = function(delta){
+      // draw the game
         // draw players, npcs, scenery, animations, etc.
-	};
+   };
 
-	me.start = function(){
+   me.start = function(){
         running = true;
-		var lastTime =  Date.now();
-		(function mainloop(){
+      var lastTime =  Date.now();
+      (function mainloop(){
             if(!running) return;
             
             window.requestAnimationFrame(mainloop);
             
-			// Get the time to calculate time-elapsed
-			var now = Date.now();
+         // Get the time to calculate time-elapsed
+         var now = Date.now();
 
-			var elapsed = Math.floor(now - lastTime);
+         var elapsed = Math.floor(now - lastTime);
 
-			me.update(elapsed); 
-			me.draw(elapsed);
+         me.update(elapsed); 
+         me.draw(elapsed);
 
-			lastTime = now;
-		})();	
-	};
+         lastTime = now;
+      })(); 
+   };
     
     me.stop = function(){
         running = false;
     };
 
-	return me;
+   return me;
 };
 
 var game = new Game();
 game.start();</div>
-			</div>
 
-			<div id="code-actor" class="step slide" data-x="-1500" data-y="7500">
-				<p><b>Code:</b> Actor</p>
-				<hr>
-				<div id="actor-editor" class="code-editor">var Actor = function(x, y , width, height){
+            </section>
+
+            <section data-transition="linear" data-background-transition="slide" data-background="#4EB55B">
+               <h2>Actor/Entity</h2>
+               <div id="actor-editor" class="taller code-editor">var Actor = function(x, y , width, height){
     var me = this;
     me.pos = {x : x || 0, y: y || 0};
     me.vel = {x : 0, y: 0};
@@ -301,53 +313,44 @@ Actor.prototype.update = function(delta){
 Actor.prototype.draw = function(delta){
     
 };</div>
-			</div>
 
-			<div id="collision-detection1" class="step slide" data-x="0" data-y="7500">
-				<p><b>Collision Detection</b></p>
-				<hr>
-				<ul>
-					<li class="space10"><b>Bounding Areas</b> - Circles, Rectangles</li>
-					<li class="space10"><b>Spatial Partitioning</b> - Tile Based, Object Grouping</li>
-					<li class="space10"><b>Ray Casting</b> - Linear Algebra</li>
-					<li class="space10"><b>Separating Axis Theorem</b><li>
-				</ul>
-			</div>
+            </section>
 
-			<div id="collision-detection-circles" class="step slide" data-x="1500" data-y="6000">
-				<p><b>Collision Detection:</b> Circles</p>
-				<hr>
-				<img src="images/circlecollision.svg" style="height:90%;width:100%">
-			</div>
-			<div id="collision-detection-rectangles" class="step slide" data-x="3000" data-y="6000">
-				<p><b>Collision Detection:</b> Rectangles</p>
-				<hr>
-				<img src="images/rectanglecollision.svg" style="height:90%; width:100%">
-			</div>
-			<div id="collision-1" class="step slide" data-x="3000" data-y="7500">
-				<p><b>Case 1</b></p>
-				<hr>
-				<img src="images/rectcollisionargtbl.svg" style="height:90%; width:100%">
-			</div>
-			<div id="collision-2" class="step slide" data-x="3000" data-y="9000">
-				<p><b>Case 2</b></p>
-				<hr>
-				<img src="images/rectcollisionalltbr.svg" style="height:90%; width:100%">
-			</div>
-			<div id="collision-3" class="step slide" data-x="4500" data-y="9000">
-				<p><b>Case 3</b></p>
-				<hr>
-				<img src="images/rectcollisionabgtbt.svg" style="height:90%; width:100%">
-			</div>
-			<div id="collision-4" class="step slide" data-x="4500" data-y="7500">
-				<p><b>Case 4</b></p>
-				<hr>
-				<img src="images/rectcollisionatltbb.svg" style="height:90%; width:100%">
-			</div>
-			<div id="code-collision-detection" class="step slide" data-x="4500" data-y="6000">
-				<p><b>Code:</b> Collision Detection</p>
-				<hr>
-				<div id="collision-detection-editor" class="code-editor">var Rect = function(x, y, w, h){
+            <section>
+               <h2>Collision Detection</h2>
+               <p class="fragment">Bounding Areas</p>
+               <p class="fragment">Spatial Partitioning</p>
+               <p class="fragment">Ray Casting</p>
+               <p class="fragment">Separating Axis Theorem</p>
+            </section>
+
+            <section>
+               <h2>Circles</h2>
+               <img class="biggest no-border" src="img/circlecollision.svg">
+            </section>
+            
+            <section>
+               <h2>Rectangles</h2>
+               <img class="biggest no-border" src="img/rectanglecollision.svg">
+            </section>
+              <!--  <section>
+                  <img class="biggest no-border" src="img/rectcollisionargtbl.svg">
+               </section>
+               <section>
+                  <img class="biggest no-border" src="img/rectcollisionalltbr.svg">
+               </section>
+               <section>
+                  <img class="biggest no-border" src="img/rectcollisionabgtbt.svg">
+               </section>
+               <section>
+                  <img class="biggest no-border" src="img/rectcollisionatltbb.svg">
+               </section> -->
+
+           
+
+            <section>
+               <h2>Axis Aligned Bounding Box</h2>
+               <div id="collision-detection-editor" class="tall code-editor">var Rect = function(x, y, w, h){
     var me = this;
     me.x = x;
     me.y = y;
@@ -367,87 +370,131 @@ var collides = function(rectA, rectB){
     ABottom > rectB.y &&
     rectA.y < BBottom;
 };</div>
-			</div>
+            </section>
 
-			<div id="collision-detection-spatial-partitioning-strict" class="step slide" data-x="6000" data-y="6000">
-				<p><b>Collision Detection:</b> Spatial Partitioning</p>
-				<hr>
-				<img src="images/spatialpartitioning.svg" style="padding-top:50px;width:100%">
-			</div>
+            <section>
+               <section>
+                  <h2>Simple AABB</h2>
+                  <img class="biggest no-border" src="img/easycollision.svg">
+               </section>
+               <section>
+                  <img class="biggest no-border" src="img/easycollision2.svg">
+               </section>
+               <section>
+                  <h2>Implementation</h2>
+                  <div id="easy-collision-detection-editor" class="tall code-editor">var BoundingBox = function(left, top, right, bottom){
+    var me = this;
+    me.left = left;
+    me.top = top;
+    me.right = right;
+    me.bottom = bottom;
+    return me;
+};
 
-			<div id="collision-detection-spatial-partitioning-grouping" class="step slide" data-x="7500" data-y="6000">
-				<p><b>Collision Detection:</b> Object Grouping</p>
-				<hr>
-				<img src="images/spatialpartitioning2.svg" style="width:100%;height:90%">
-			</div>
+BoundingBox.prototype.getWidth = function() {
+   return this.right - this.left;
+}
 
-			
-			<div id="code-handling-key-events-vector" class="step slide" data-x="6000" data-y="4500">
-				<p><b>Handling Key Events:</b> Key Vector</p>
-				<div id="keycode-vector-editor" class="code-editor">var keys = [];
+BoundingBox.prototype.getHeight = function() {
+   return this.bottom - this.top;
+}
+
+var collides = function(bb1, bb2){
+   var bounds = new BoundingBox(
+      Math.min(bb1.left, bb2.left),
+      Math.min(bb1.top, bb2.top),
+      Math.max(bb1.right, bb2.right),
+      Math.max(bb1.bottom, bb2.bottom)
+   );
+
+   return (bounds.getWidth() < bb1.getWidth() + bb2.getWidth() &&
+           bounds.getHeight() < bb1.getHeight() + bb1.getHeight());
+    
+};</div>
+               </section>
+            </section>
+            <section>
+               <h2>Spatial Partitioning</h2>
+               <img class="biggest no-border" src="img/spatialpartitioning.svg">
+            </section>
+            <section>
+               <h2>Object Grouping</h2>
+               <img class="biggest no-border" src="img/spatialpartitioning2.svg">
+            </section>
+
+            <section>
+               <h2>Key Events</h2>
+               <div id="key-events-editor" class="tall code-editor">var keys = [];
 // clear keyDown vector on every update
 var keyDown =[];
 
 window.addEventListener('keydown', function(e){
-	if(keys.indexOf(e.keyCode) === -1){
-		keys.push(e.keyCode);
+   if(keys.indexOf(e.keyCode) === -1){
+      keys.push(e.keyCode);
         keyDown.push(e.keyCode);
-	}
+   }
 });
 window.addEventListener('keyup', function(e){
-	var index;
-	if((index = keys.indexOf(e.keyCode)) > -1){
-		keys.splice(index,1);
-	}
+   var index;
+   if((index = keys.indexOf(e.keyCode)) > -1){
+      keys.splice(index,1);
+   }
 });</div>
-			</div>
-			<div id="code-handling-key-events-konami" class="step slide" data-x="4500" data-y="4500">
-				<p><b>Key Combinations:</b> Konami Code</p>
-				<hr>
-				<div id="keycode-konami-editor" class="code-editor">(function(){
-	var game = new Snake('canvas4');
-	var keys = [];
-	var konami = "38,38,40,40,37,39,37,39,66,65";
-	window.addEventListener('keydown', function(e) {
-        keys.push(e.keyCode);
-        if(keys.join(',').indexOf(konami) >= 0 ){
-            keys.length = 0;
-            game.start();
-        }
-	});
-})();
+            </section>
 
-// Courtesy Paul Irish 
-// http://www.paulirish.com/2009/cornify-easter-egg-with-jquery/</div>
-			</div>
+            <section>
+               <section>
+                  <h2>Key Combinations</h2>
+                  <div id="konami-editor" class="tall code-editor">(function(){
+      var game = new Snake('canvas4');
+      var keys = [];
+      var konami = "38,38,40,40,37,39,37,39,66,65";
+      window.addEventListener('keydown', function(e) {
+           keys.push(e.keyCode);
+           if(keys.join(',').indexOf(konami) >= 0 ){
+               keys.length = 0;
+               game.start();
+           }
+      });
+   })();
 
-			<div id="konami-snake-game" class="step slide" data-x="3000" data-y="4500">
-				<p><b>Example:</b> Key Combination</p>
-				<button id="btn-konami" class="btn btn-primary">Start</button>
-				<hr>
-				<canvas id="canvas4" width="480" height="320" class="border">
-				</canvas>
-			</div>
+   // Courtesy Paul Irish 
+   // http://www.paulirish.com/2009/cornify-easter-egg-with-jquery/</div>
+               </section>
+               <section>
+                  <h2>Konami Code</h2>
+                  <canvas id="canvas4" width="800" height="600" class="border"></canvas>
+               </section>
+            </section>
+            <section>
+               <h2>Sound</h2>
+               <ul>
+                  <li class="fragment">Web Audio API</li>
+                  <li class="fragment">HTML5 Audio</li>
+                  <li class="fragment">Fallbacks</li>
+                  <ul>
+                     <p class="fragment">SoundManager2</p>
+                     <p class="fragment">jPlayer</p>
+                     <p class="fragment">MediaElement.js</p>            
+                  </ul>                  
+               </ul>
+               <aside class="notes">
+                  SoundManager2 - Flash Fallback 
+                  jPlayer - Flash Fallback jquery plugin (audio and video)
+                  MediaElement - Flash or Silverlight that mimics the HTML5 audio and video tags
+               </aside>
 
-			<div id="sound" class="step slide" data-x="1500" data-y="4500">
-				<p><b>Sound:</b> </p>
-				<hr>
-				<ul>
-					<li class="space10">Web Audio API</li>
-					<li class="space10">HTML5 Audio</li>
-					<li class="">Fallbacks*</li>
-					<li style="margin-left: 40px;">SoundManager 2</li>
-					<li style="margin-left: 40px;">jPlayer</li>
-					<li style="margin-left: 40px;">MediaElement.js</li>
-			</div>
+            </section>
+            <section>
+               <section>
+                  <h2>HTML5 Audio</h2>
+                  <img class="biggest no-border" src="img/html5player.png">
+                  <span class="small">Image from <a href="http://www.hanselminutes.com">http://www.hanselminutes.com</a></span>
+               </section>
+               <section>
+                  <h2>Code</h2>
 
-			<div id="code-html-audio" class="step slide" data-x="1500" data-y="3000">
-				<p><b>Code: </b> HTML5 Audio</p>
-				<button id="btn-html-audio-load" class="btn btn-primary">Load</button>
-				<button id="btn-html-audio-play" class="btn btn-primary">Play</button>
-				<hr>
-				<div id="html-audio-editor" class="code-editor" style="height:400px">var sound = document.createElement('audio');
-document.body.appendChild(sound);
+                  <div id="html5-audio-editor" class="tall code-editor">var sound = new Audio();
 sound.src = 'sounds/soundeffect.mp3';
 sound.volume = 1.0;
 
@@ -456,14 +503,18 @@ var button = document.getElementById('btn-html-audio-play');
 button.addEventListener("click", function(){
     sound.play();
 });</div>
+               <button class="btn btn-blue" id="btn-html-audio-play">Play</button>
+               </section>
+            </section>
 
-			</div>
-			<div id="code-web-audio-api" class="step slide" data-x="3000" data-y="3000">
-				<p><b>Code: </b> Web Audio Api</p>
-				<button id="btn-web-audio-load" class="btn btn-primary">Load</button>
-				<button id="btn-web-audio-play" class="btn btn-primary">Play</button>
-				<hr>
-				<div id="web-audio-editor" class="code-editor" style="height:400px">var context = new window.webkitAudioContext();
+            <section>
+               <section>
+                  <h2>Web Audio Api</h2>
+                  <img class="biggest no-border" src="img/audiocontext.svg">
+               </section>
+               <section>
+                  <h2>Code</h2>
+                  <div id="web-audio-api-editor" class="tall code-editor">var context = new window.webkitAudioContext();
 var buffer = null;
 
 var load = function(){
@@ -491,17 +542,19 @@ var button = document.getElementById('btn-web-audio-play');
 button.addEventListener("click", function(){
     play();
 });</div>
-			</div>
-			<div id="sprite-animation" class="step slide" data-x="4500" data-y="3000">
-				<p><b>Sprite Animation</b></p>
-				<hr>
-				<img src="images/spriteexplosion.png" style="height:90%;width:100%" class="border">
-			</div>
+               <button class="btn btn-blue" id="btn-web-audio-play">Play</button>
+               </section>
 
-			<div id="code-sprite-animation" class="step slide" data-x="4500" data-y="1500">
-				<p><b>Code: </b> Sprite Animation</p>
-				<hr>
-				<div id="sprite-animation-editor" class="code-editor">var Sprite = function(image, sx, sy, sw, sh){
+            </section>
+
+            <section>
+               <section>
+                  <h2>Sprite Animation</h2>
+                  <img class="biggest no-border" src="img/bombspritesheet.png">
+               </section>
+               <section>
+                  <h2>Code</h2>
+                  <div id="sprite-animation-editor" class="tall code-editor">var Sprite = function(image, sx, sy, sw, sh){
     var me = this;
     me.image = image;
     me.draw = function(ctx, x, y){
@@ -540,237 +593,246 @@ var clear = function(){
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
-var animation = new Animation('images/spriteexplosion.png', 5, 5, 45, 45);
+var animation = new Animation('img/bombspritesheet.png', 3, 4, 280, 237.5);
 var interval = setInterval(function(){
     clear();
     ctx.save();
-    ctx.translate(140, 100);
-    ctx.scale(3,3);
+    ctx.translate(250, 200);
+    ctx.scale(1,1);
     animation.draw(ctx, 0, 0);    
     ctx.restore();
-}, 30);</div>
-			</div>
-			<div id="example-sprite-animation" class="step slide" data-x="4500" data-y="0">
-				<p><b>Example:</b> Sprite Animations</p>
-				<button id="btn-animation" class="btn btn-primary">Start</button>
-				<hr>
-				<canvas id="canvas5" width="480" height="320" class="border">
-				</canvas>
-			</div>
-			<div id="pulling-it-together" class="step slide" data-x="4500" data-y="-1500">
-				<p><b>Code:</b> Game</p>
-				<hr>
-				<div id="game-editor" class="code-editor">
-				</div>
-			</div>
-			<div id="example-game" class="step slide" data-x="6000" data-y="-1500" >
-				<p><b>Example:</b> Game</p>
-				<button id="btn-game" class="btn btn-primary">Start</button>
-				<button id="btn-game-stop" class="btn btn-primary">Stop</button>
-				<hr>
-				<canvas class="border" id="game" width="600" height="400"></canvas>
-			</div>
-			<div id="multiplayer-meme" class="step" data-x="3000" data-y="0">
-				<img src="images/meme.jpg" style="width:100%">
-			</div>
-			<div id="multiplayer-games" class="step slide" data-x="1500" data-y="0">
-				<p><b>Multiplayer Support</b></p>
-				<hr>
-				<ul>
-					<li class="space10">Web Sockets</li>
-					<li class="space10">Server Sent Events</li>
-					<li class="space10">AJAX Long Polling</li>
-					<li class="space10">Forever Frames</li>
-				</ul>
-			</div>
-			<div id="multiplayer-games-examples" class="step slide" data-x="1500" data-y="-1500">
-				<p><b>Multiplayer Examples</b></p>
-				<hr>
-				<ul>
-					<li class="space10"><a href="https://github.com/eonarheim/HyperAsteroids">HyperAsteroids</a> with Socket.io</li>
-					<li class="space10"><a href="https://github.com/eonarheim/SignalRGameDemo">Super Tanks</a> with SignalR.Net</li>
-				</ul>
-			</div>
-			<div id="hyper-asteroids" class="step" data-x="3000" data-y="-1500">
-				<h1 style="color:white">http://www.erikonarheim.com:8080</h1>
-				<iframe style="width: 700px;height: 700px;" src="http://www.erikonarheim.com:8080">No WIFI!</iframe>
-			</div>
-			<div id="resources" class="step slide" data-x="3000" data-y="-3000">
-				<p><b>Resources</b><p>
-				<hr>
-				<h5><b>Presentation</b> <a style="width:100%" href="http://speakr.cc/#talks/293">http://speakr.cc/#talks/293</a></h5>
-				<ul>
-					<li style="margin-left: 40px;">
-					<a href="https://github.com/eonarheim/AllYourGamesPresentation">Source</a>
-					</li>
-				</ul>
+}, 90);</div>
+               </section>
+               <section>
+                  <h2>Boom!</h2>
+                  <canvas id="canvas5" width="800" height="600" class="border"></canvas>
+               </section>
 
-				<h5><b>Libraries</b></h5>
-				<ul>
-					<li style="margin-left: 40px;">Babylon js</li>
-					<li style="margin-left: 40px;">SoundManager 2 </li>
-					<li style="margin-left: 40px;">Impress js</li>
-					<li style="margin-left: 40px;">Ace Code Editor</li>
-					<li style="margin-left: 40px;">Excalibur js</li>
-				</ul>
-				<h5><b>Books</b></h5>
-				<ul>
-					<li style="margin-left: 40px;">Core HTML5 Canvas - David Geary</li>
-					<li style="margin-left: 40px;">Secrets of a JavaScript Ninja - John Resig</li>
-					<li style="margin-left: 40px;">Effective JavaScript - David Herman</li>
-				</ul>
-				<h5><b>Links</b></h5>
-				<ul>
-					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=hFsCG7v9Y4c">Turning the Web Up to 11</a></li>
-					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=yF0T7lviBnY">HTML5 Bouncing Circles</a></li>
-					<li style="margin-left: 40px;"><a href="http://www.youtube.com/watch?v=xdKWSjQ8bsQ">Diving Deep into Canvas</a></li>
-				</ul>
+            </section>
 
-			</div>
-			<div id="questions" class="step" data-x="3000" data-y="-4500">
-				<h5 style="width: 440px;font-size: 1000px;margin: auto;color:rgb(28, 150, 130);">?</h5>
+            <section>
+               <section>
+                  <h2>Making a Game</h2>
+                  <div id="making-a-game-editor" class="tall code-editor">
+                  </div>
+               </section>
+               <section>
+                  <h2>StarShootr</h2>
+                  <canvas id="game" width="800" height="600" class="border"></canvas>
+                  <button id="stop-starshootr" class="btn btn-blue">Pause</button>
+               </section>
+            </section>
+            <section>
+               <h2>Game Engines</h2>
+               <ul class="fragment">
+                  <li>ExcaliburJS.com</li>
+                  <li>Impact.js</li>
+                  <li>Phaser.io</li>
+                  <li>Pixi.js</li>
+                  <li>Babylon.js</li>
+               </ul>
+
+            </section>
+
+            <section>
+               <h2>Resources</h2>
+               <ul>
+                  <li>Presentation</li>
+                  <ul class="fragment">
+                     <li>https://github.com/eonarheim/</li>
+                  </ul>                  
+                  <li class="fragment">Libraries</li>
+                  <ul class="fragment">
+                     <li>SoundManager2</li>
+                     <li>Reveal.js</li>
+                     <li>Ace Code Editor - http://ace.c9.io</li>
+                  </ul>
+                  <li class="fragment">Books</li>
+                  <ul class="fragment">
+                     <li>Core HTML5 Canvas - David Geary</li>
+                     <li>Secrets of a JavaScript Ninja - John Resig</li>
+                     <li>JavaScript: The Good Parts - Douglass Crockford</li>
+                  </ul>
+                  <li class="fragment">YouTube Videos</li>
+                  <ul class="fragment">
+                     <li>Turning the Web up to 11</li>
+                     <li>Diving Deep into Canvas</li>
+                  </ul>
+
+               </ul>
+
+            </section>
+            <section>
+               <h2>Thanks!</h2>
+
+               <h5>ERIK ONARHEIM</h5>
+            </section>
+
 			</div>
 
 		</div>
-		<div class="hint">
-			<p>Use the "Page Up" and "Page Down" keys to navigate.
-		</div>
 
-		<script type="text/javascript" src="lib/jquery-2.0.3.min.js"></script>
-		<script type="text/javascript" src="lib/impress.js"></script>
-		<script type="text/javascript">impress().init()</script>
-		<script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
-		<script type="text/javascript" src="snake.js"></script>
-		<script type="text/javascript">
-				var scriptHoister =function(scriptText){
-					setTimeout(function(){
-			            if (scriptText) {
-			                var head = document.getElementsByTagName("head")[0] || document.documentElement,
-			                    script = document.createElement("script");
-			                script.type = "text/javascript";
-			                script.text = scriptText;
-			                head.appendChild(script);
-			                head.removeChild(script);
-			            }
-		            },10);
-				};
+      <script src="lib/js/utoast.js"></script>
+      <script src="lib/js/snake.js"></script>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
 
-				var makeEditor = function(id, removeCode){
-					var editor = ace.edit(id);
-					if(removeCode){
-						editor.getSession().setValue('');
-					}
-
-					editor.setShowPrintMargin(false);
-					editor.setTheme("ace/theme/monokai");
-				    editor.getSession().setMode("ace/mode/javascript");
-				    editor.getSession().setTabSize(4);
-				    editor.getSession().setUseSoftTabs(true);
-				    editor.getSession().setUseWorker(true);
-
-				    editor.commands.addCommand({
-					    name: 'Save',
-					    bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-					    exec: function(editor) {
-					        //...
-					    },
-					    readOnly: true // false if this command should not apply in readOnly mode
-					});
-					editor.setFontSize(20);
-					return editor;
-				};
-
-				var interval = undefined;
-				var running = false;
-				var clearAnimation = function(){
-					if(interval){clearInterval(interval)};
-					running = false;
-				};
-
-				var hideDemoCode = true;
-				var drawingEditor = makeEditor('drawing-editor');
-				var movementEditor = makeEditor('movement-editor');
-				var timingEditor = makeEditor('timing-editor');
-				var gameloopEditor = makeEditor('gameloop-editor');
-				var actorEditor = makeEditor('actor-editor');
-				var collisionDetectionEditor = makeEditor('collision-detection-editor');
-				var keycodeVectorEditor = makeEditor('keycode-vector-editor');
-				var keycodeKonamiEditor = makeEditor('keycode-konami-editor');
-				var htmlAudioEditor = makeEditor('html-audio-editor');
-				var webAudioEditor = makeEditor('web-audio-editor');
-				var spriteAnimationEditor = makeEditor('sprite-animation-editor');
-				var gameEditor = makeEditor('game-editor');
-
-				var request = new XMLHttpRequest();
-				request.open("GET", "starshooter.js");
-				request.responseType = 'text/plain'
-				request.onload = function(){
-					gameEditor.getSession().setValue(request.response);
-				}
-				request.send();
-
-				// Setup coding demos
-				$('#btn-drawing').on('click', function(){
-					clearAnimation();
-					var code = drawingEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-time-based-movement').on('click', function(){
-					clearAnimation();
-					var code = movementEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-timing').on('click', function(){
-					clearAnimation();
-					var code = timingEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-konami').on('click', function(){
-					clearAnimation();
-					var code = keycodeKonamiEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-html-audio-load').on('click', function(){
-					clearAnimation();
-					var code = htmlAudioEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-web-audio-load').on('click', function(){
-					clearAnimation();
-					var code = webAudioEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-animation').on('click', function(){					
-					clearAnimation();
-					var code = spriteAnimationEditor.getSession().getValue();
-					scriptHoister(code);
-				});
-
-				$('#btn-game').on('click', function(){
-					try{
-						game.stop();
-					}catch(e){
-						//swallow 
-						// there is a better way to do this :/
-					}
-					clearAnimation();
-					var code = gameEditor.getSession().getValue();
-					scriptHoister(code);
-					$('#btn-game').blur();
-				})
-
-				$('#btn-game-stop').on('click', function(){
-					game.stop();
-				})
+		<script>
 
 
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+      
+         Reveal.configure({
+           keyboard: {
+             83: null, // do nothing on S
+             66: null, // disable pause mode on b
+           }
+         });
 
 		</script>
+      <script type="text/javascript" src="lib/ace/ace.js" charset="utf-8"></script>
+      <script type="text/javascript">
+         var scriptHoister =function(scriptText){
+               setTimeout(function(){
+                     if (scriptText) {
+                         var head = document.getElementsByTagName("head")[0] || document.documentElement,
+                             script = document.createElement("script");
+                         script.type = "text/javascript";
+                         script.text = scriptText;
+                         head.appendChild(script);
+                         head.removeChild(script);
+                     }
+                  },10);
+            };
+
+            var makeEditor = function(id, removeCode){
+               var editor = ace.edit(id);
+               if(removeCode){
+                  editor.getSession().setValue('');
+               }
+
+               editor.setShowPrintMargin(false);
+               editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/javascript");
+                editor.getSession().setTabSize(4);
+                editor.getSession().setUseSoftTabs(true);
+                editor.getSession().setUseWorker(true);
+
+                editor.commands.addCommand({
+                   name: 'Save',
+                   bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                   exec: function(editor) {
+                       //...
+                       var code = editor.getSession().getValue();
+                       scriptHoister(code);
+                       uToast.info("Code Running!");
+                   },
+                   readOnly: true // false if this command should not apply in readOnly mode
+               });
+               editor.setFontSize(20);
+               return editor;
+            };
+
+            var interval = undefined;
+            var running = false;
+            var clearAnimation = function(){
+               if(interval){clearInterval(interval)};
+               running = false;
+            };
+
+            var hideDemoCode = true;
+            
+            var drawingEditor = makeEditor('drawing-editor');
+            var movementEditor = makeEditor('movement-editor');
+            var timingEditor = makeEditor('timing-editor');
+
+            var gameLoopEditor = makeEditor('game-loop-editor');
+            var actorEditor = makeEditor('actor-editor');
+
+            var collisionDetectionEditor = makeEditor('collision-detection-editor');
+            var easyCollisionDetectionEditor = makeEditor('easy-collision-detection-editor');
+
+            var keyEventsEditor = makeEditor('key-events-editor');
+            var konamiEditor = makeEditor('konami-editor');
+
+            var html5AudioEditor = makeEditor('html5-audio-editor');
+            var webAudioApiEditor = makeEditor('web-audio-api-editor');            
+
+            var spriteAnimationEditor = makeEditor('sprite-animation-editor');
+
+            var makingAGameEditor = makeEditor('making-a-game-editor');
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "lib/js/starshooter.js");
+            request.responseType = 'text/plain'
+            request.onload = function(){
+               makingAGameEditor.getSession().setValue(request.response);
+            }
+            request.send();
+
+
+            document.getElementById('canvas1').addEventListener('click', function(){
+               clearAnimation();
+               var code = drawingEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('canvas2').addEventListener('click', function(){
+               clearAnimation();
+               var code = movementEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('canvas3').addEventListener('click', function(){
+               clearAnimation();
+               var code = timingEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+
+            document.getElementById('canvas4').addEventListener('click', function(){
+               clearAnimation();
+               var code = konamiEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('canvas5').addEventListener('click', function(){
+               clearAnimation();
+               var code = spriteAnimationEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+
+            document.getElementById('game').addEventListener('click', function(){
+               clearAnimation();
+               var code = makingAGameEditor.getSession().getValue();
+               scriptHoister(code);
+            });
+      </script>
+
 	</body>
 </html>
