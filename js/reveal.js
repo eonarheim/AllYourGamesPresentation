@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2013 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
  */
 var Reveal = (function(){
 
@@ -2704,19 +2704,19 @@ var Reveal = (function(){
 				// n, page down
 				case 78: case 34: navigateNext(); break;
 				// h, left
-				case 72: /*case 37:*/ navigateLeft(); break;
+				case 72: case 37: navigateLeft(); break;
 				// l, right
-				case 76: /*case 39:*/ navigateRight(); break;
+				case 76: case 39: navigateRight(); break;
 				// k, up
-				case 75: /*case 38:*/ navigateUp(); break;
+				case 75: case 38: navigateUp(); break;
 				// j, down
-				case 74: /*case 40:*/ navigateDown(); break;
+				case 74: case 40: navigateDown(); break;
 				// home
 				case 36: slide( 0 ); break;
 				// end
 				case 35: slide( Number.MAX_VALUE ); break;
 				// space
-				/*case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;*/
+				case 32: isOverview() ? deactivateOverview() : event.shiftKey ? navigatePrev() : navigateNext(); break;
 				// return
 				case 13: isOverview() ? deactivateOverview() : triggered = false; break;
 				// b, period, Logitech presenter tools "black screen" button

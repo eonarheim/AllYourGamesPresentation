@@ -122,7 +122,7 @@
             <section data-transition="linear" data-background-transition="slide" data-background="#007777">
                <section>
                <h2>Let's Draw Something</h2>
-               <div id="drawing-editor" class="taller code-editor"></div>
+               <div id="drawing-editor" class="tall code-editor"></div>
                </section>
                <section data-transition="linear" data-background-transition="slide">
                   <h2>Bam!</h2>
@@ -134,7 +134,7 @@
             <section data-transition="linear" data-background-transition="slide" data-background="#3D9999">
                <section>
                   <h2>Make it Move!</h2>
-                  <div id="movement-editor" class="taller code-editor">if(!window.requestAnimationFrame){
+                  <div id="movement-editor" class="tall code-editor">if(!window.requestAnimationFrame){
     window.requestAnimationFrame = webkitRequestAnimationFrame ||
     mozRequestAnimationFrame || msRequestAnimationFrame || 
     function(callback){window.setInterval(callback, 1000/60)};
@@ -240,7 +240,7 @@ var interval = setInterval(function(){
 
             <section data-transition="linear" data-background-transition="slide" data-background="#486627">
                <h2>Game Loop</h2>
-               <div id="game-loop-editor" class="taller code-editor">// request animation frame polyfill
+               <div id="game-loop-editor" class="tall code-editor">// request animation frame polyfill
 if(!window.requestAnimationFrame){
     window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame || 
@@ -510,7 +510,7 @@ button.addEventListener("click", function(){
             <section>
                <section>
                   <h2>Web Audio Api</h2>
-                  <img class="taller no-border" src="img/audiocontext.svg">
+                  <img class="tall no-border" src="img/audiocontext.svg">
                </section>
                <section>
                   <h2>Code</h2>
@@ -608,6 +608,37 @@ var interval = setInterval(function(){
                   <canvas id="canvas5" width="800" height="600" class="border"></canvas>
                </section>
 
+            </section>
+
+            <section>
+              <section>
+                <h2>GamePad Api</h2>
+                <div id="gamepadapi-editor" class="tall code-editor"></div>
+              </section>
+              <section>
+                <h2>Demo</h2>
+                <div></div>
+              </section>
+            </section>
+
+            <section>
+              <section>
+                <h2>Multiplayer Architecture</h2>
+                <ul>
+                  <li class="fragment">Client-Server vs. Peer-Peer</li>
+                  <li class="fragment">Authoritative State</li>
+                  <li class="fragment">Message Size/Chattiness</li>
+                  <li class="fragment">Mitigate Cheating with Command Style messages</li>
+                  <li class="fragment">Bots</li>
+                </ul>
+              </section>
+              <section>
+                <h2>Hyper Asteroids</h2>
+                <h5><a href="http://www.erikonarheim.com:8080/">http://www.erikonarheim.com:8080</a></h5>
+                <a href="http://www.erikonarheim.com:8080/">
+                  <img src="img/HyperAsteroids.png" class="tall">
+                </a>
+              </section>
             </section>
 
             <section>
@@ -784,6 +815,8 @@ var interval = setInterval(function(){
             var webAudioApiEditor = makeEditor('web-audio-api-editor');            
 
             var spriteAnimationEditor = makeEditor('sprite-animation-editor');
+
+            var gamepadapiEditor = makeEditor('gamepadapi-editor');
 
             var makingAGameEditor = makeEditor('making-a-game-editor');
 

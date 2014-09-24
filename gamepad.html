@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+   <title>GamePad API Tester</title>
+   
+   <link rel="stylesheet" type="text/css" href="lib/css/utoast.css">
+</head>
+<body>
+
+   <script type="text/javascript" src="lib/js/utoast.js"></script>
+   <script type="text/javascript">
+      // Check for gamepads
+      var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
+      window.requestAnimationFrame = window.requestAnimationFrame || 
+                                    window.webkitRequestAnimationFrame || 
+                                    window.mozRequestAnimationFrame || 
+                                    window.oRequestAnimationFrame || 
+                                    window.msRequestAnimationFrame;
+
+      var gamepad = {};
+      gamepad.BUTTONS = {
+        Face1: 0, // Face (main) buttons
+        Face2: 1,
+        Face3: 2,
+        Face4: 3,
+        LeftShoulder: 4, // Top shoulder buttons
+        RightShoulder: 5,
+        LeftShoulderBottom: 6, // Bottom shoulder buttons
+        RightShoulderBottom: 7,
+        Select: 8,
+        Start: 9,
+        LeftStick: 10, // Analogue sticks (if depressible)
+        RightStick: 11,
+        PadTop: 12, // Directional (discrete) pad
+        PadBottom: 13,
+        PadLeft: 14,
+        PadRight: 15
+      };
+
+      gamepad.AXES = {
+        LEFT_ANALOGUE_HOR: 0,
+        LEFT_ANALOGUE_VERT: 1,
+        RIGHT_ANALOGUE_HOR: 2,
+        RIGHT_ANALOGUE_VERT: 3
+      };               
+
+      var cloneObject = function(obj){
+         var newObj = {};
+         for(var key in obj){
+            if(obj.hasOwnProperty(key)){
+               if(typeof obj[key] === 'object'){
+                  newObj[key] = cloneObject(obj[key]);
+               }else{
+                  newObj[key] = obj[key];
+               }
+            }            
+         }
+         return newObj;
+      }
+
+      var oldPads = [];
+      var gamePadTimeStamps = [0, 0, 0, 0]
+      if(gamepadSupportAvailable){
+         uToast.info("GamePad Support Available");
+         oldPads = cloneObject(navigator.getGamepads());
+         (function pollGamePads(){
+            window.requestAnimationFrame(pollGamePads);
+
+            var gamepads = navigator.getGamepads();
+            for(var i = 0; i<gamepads.length; i++){
+               if(gamepads[i] && (gamepads[i].timestamp != gamePadTimeStamps[i])){
+                  for(var b in gamepad.BUTTONS){
+                     var buttonIndex = gamepad.BUTTONS[b];
+                     if(gamepads[i].buttons[buttonIndex].value != oldPads[i].buttons[buttonIndex].value){
+                        uToast.info("Pad",i,"-", b, gamepads[0].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[0].buttons[buttonIndex].value);
+                     }
+                  }
+                  gamePadTimeStamps[i] = gamepads[i].timestamp;
+               }            
+
+               oldPads[i] = cloneObject(gamepads[i]);
+            }
+            
+         })();
+      }
+
+
+
+
+      window.addEventListener("gamepadconnected", function(e) {
+         console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+         e.gamepad.index, e.gamepad.id,
+         e.gamepad.buttons.length, e.gamepad.axes.length);
+      });
+
+   </script>
+</body>
+
+</html>
