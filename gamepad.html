@@ -72,9 +72,17 @@
                   for(var b in gamepad.BUTTONS){
                      var buttonIndex = gamepad.BUTTONS[b];
                      if(gamepads[i].buttons[buttonIndex].value != oldPads[i].buttons[buttonIndex].value){
-                        uToast.info("Pad",i,"-", b, gamepads[0].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[0].buttons[buttonIndex].value);
+                        uToast.info("Pad",i,"-", b, gamepads[i].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[i].buttons[buttonIndex].value);
                      }
                   }
+
+                  for(var a in gamepad.AXES){
+                     var axesIndex = gamepad.AXES[a];
+                     if(Math.abs(gamepads[i].axes[axesIndex]-oldPads[i].axes[axesIndex])>.1){
+                        uToast.info("Pad",i,"-",a, gamepads[i].axes[axesIndex])
+                     }
+                  }
+
                   gamePadTimeStamps[i] = gamepads[i].timestamp;
                }            
 
