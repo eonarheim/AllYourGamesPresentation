@@ -2,20 +2,166 @@
 <html>
 <head>
    <title>GamePad API Tester</title>
-   
+   <link rel="stylesheet" type="text/css" href="css/custom.css">
    <link rel="stylesheet" type="text/css" href="lib/css/utoast.css">
+   <style type="text/css">
+      #gamepad {
+        position: relative;
+      }
+
+      #Face1 { 
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        position: absolute;
+        top: 174px;
+        left: 543px;
+      }
+
+      #Face2 {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        position: absolute;
+        top: 117px;
+        left: 600px;
+      }
+      #Face3 {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        position: absolute;
+        top: 119px;
+        left: 487px;
+      }
+
+      #Face4 {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: red;
+        position: absolute;
+        top: 63px;
+        left: 543px;
+      }
+
+      #Start {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: blue;
+        position: absolute;
+        top: 125px;
+        left: 409px;
+      }
+
+      #Select {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: blue;
+        position: absolute;
+        top: 122px;
+        left: 258px;
+      }
+
+      #PadTop {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: yellow;
+        position: absolute;
+        top: 204px;
+        left: 222px;
+      }
+
+      #PadBottom {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: yellow;
+        position: absolute;
+        top: 284px;
+        left: 222px;
+      }      
+
+      #PadLeft {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: yellow;
+        position: absolute;
+        top: 244px;
+        left: 183px;
+      }
+
+      #PadRight {
+        visibility: hidden;
+        width: 30px;
+        height: 30px;
+        background-color: yellow;
+        position: absolute;
+        top: 244px;
+        left: 262px;
+      }
+
+      #LeftAnalogue {
+        background-color: green;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        top: 81px;
+        left: 87px;
+        border-radius: 55px
+      }
+
+      #RightAnalogue {
+        background-color: purple;
+        position: absolute; 
+        width: 100px;
+        height: 100px;
+        top: 208px;
+        left: 400px;
+        border-radius: 55px
+      }
+   </style>
 </head>
 <body>
+    <div id="gamepad">
+      <img src="img/xbox.jpg" class="tall" >
+      <div id="Face1"></div>
+      <div id="Face2"></div>
+      <div id="Face3"></div>
+      <div id="Face4"></div>
 
+      <div id="Start"></div>
+      <div id="Select"></div>
+
+      <div id="PadTop"></div>
+      <div id="PadLeft"></div>
+      <div id="PadBottom"></div>
+      <div id="PadRight"></div>
+
+      <div id="LeftAnalogue"></div>
+      <div id="RightAnalogue"></div>
+    </div>
+   
    <script type="text/javascript" src="lib/js/utoast.js"></script>
    <script type="text/javascript">
       // Check for gamepads
+      (function(){
       var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
       window.requestAnimationFrame = window.requestAnimationFrame || 
                                     window.webkitRequestAnimationFrame || 
                                     window.mozRequestAnimationFrame || 
                                     window.oRequestAnimationFrame || 
                                     window.msRequestAnimationFrame;
+
+
+
 
       var gamepad = {};
       gamepad.BUTTONS = {
@@ -38,11 +184,17 @@
       };
 
       gamepad.AXES = {
-        LEFT_ANALOGUE_HOR: 0,
-        LEFT_ANALOGUE_VERT: 1,
-        RIGHT_ANALOGUE_HOR: 2,
-        RIGHT_ANALOGUE_VERT: 3
-      };               
+        LeftAnalogueX: 0,
+        LeftAnalogueY: 1,
+        RightAnalogueX: 2,
+        RightAnalogueY: 3
+      };
+
+      var leftX = 87;
+      var leftY = 81;
+
+      var rightX = 400;
+      var rightY = 208; 
 
       var cloneObject = function(obj){
          var newObj = {};
@@ -72,14 +224,38 @@
                   for(var b in gamepad.BUTTONS){
                      var buttonIndex = gamepad.BUTTONS[b];
                      if(gamepads[i].buttons[buttonIndex].value != oldPads[i].buttons[buttonIndex].value){
-                        uToast.info("Pad",i,"-", b, gamepads[i].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[i].buttons[buttonIndex].value);
+                        //uToast.info("Pad",i,"-", b, gamepads[i].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[i].buttons[buttonIndex].value);
+                        try{
+                          if(gamepads[i].buttons[buttonIndex].pressed){
+                            document.getElementById(b).style.visibility = 'visible';
+                          }else{
+                            document.getElementById(b).style.visibility = 'hidden';
+                          }
+                          
+                        }catch(e){
+                          //swallow
+                        }
+
                      }
                   }
 
                   for(var a in gamepad.AXES){
                      var axesIndex = gamepad.AXES[a];
                      if(Math.abs(gamepads[i].axes[axesIndex]-oldPads[i].axes[axesIndex])>.1){
-                        uToast.info("Pad",i,"-",a, gamepads[i].axes[axesIndex])
+                        //uToast.info("Pad",i,"-",a, gamepads[i].axes[axesIndex])
+                        try{
+                          if(axesIndex === 0){
+                            document.getElementById("LeftAnalogue").style.left = leftX + gamepads[i].axes[axesIndex]*10 + 'px';
+                          }else if(axesIndex === 1){
+                            document.getElementById("LeftAnalogue").style.top = leftY + gamepads[i].axes[axesIndex]*10 + 'px';
+                          }else if(axesIndex === 2){
+                            document.getElementById("RightAnalogue").style.left = rightX + gamepads[i].axes[axesIndex]*10 + 'px';
+                          }else if(axesIndex === 3){
+                            document.getElementById("RightAnalogue").style.top = rightY + gamepads[i].axes[axesIndex]*10 + 'px';
+                          }
+                        }catch(e){
+
+                        }
                      }
                   }
 
@@ -91,16 +267,7 @@
             
          })();
       }
-
-
-
-
-      window.addEventListener("gamepadconnected", function(e) {
-         console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-         e.gamepad.index, e.gamepad.id,
-         e.gamepad.buttons.length, e.gamepad.axes.length);
-      });
-
+    })();
    </script>
 </body>
 

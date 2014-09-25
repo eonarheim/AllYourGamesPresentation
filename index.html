@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
       <!-- Custom CSS for HTML:All Your Games -->
+      <link rel="stylesheet" type="text/css" href="css/controller.css">
       <link rel="stylesheet" type="text/css" href="css/custom.css">
       <link rel="stylesheet" type="text/css" href="lib/css/utoast.css">
 
@@ -188,7 +189,7 @@ var running = true;
                </section>
                <section>
                   <h2>Time Based Movement</h2>
-                  <div id="timing-editor" class="taller code-editor">var canvas = document.getElementById('canvas3');
+                  <div id="timing-editor" class="tall code-editor">var canvas = document.getElementById('canvas3');
 var ctx = canvas.getContext('2d');
 
 var clear = function(){
@@ -297,7 +298,7 @@ game.start();</div>
 
             <section data-transition="linear" data-background-transition="slide" data-background="#4EB55B">
                <h2>Actor/Entity</h2>
-               <div id="actor-editor" class="taller code-editor">var Actor = function(x, y , width, height){
+               <div id="actor-editor" class="tall code-editor">var Actor = function(x, y , width, height){
     var me = this;
     me.pos = {x : x || 0, y: y || 0};
     me.vel = {x : 0, y: 0};
@@ -326,12 +327,12 @@ Actor.prototype.draw = function(delta){
 
             <section>
                <h2>Circles</h2>
-               <img class="taller no-border" src="img/circlecollision.svg">
+               <img class="tall no-border" src="img/circlecollision.svg">
             </section>
             
             <section>
                <h2>Rectangles</h2>
-               <img class="taller no-border" src="img/rectanglecollision.svg">
+               <img class="tall no-border" src="img/rectanglecollision.svg">
             </section>
               <!--  <section>
                   <img class="biggest no-border" src="img/rectcollisionargtbl.svg">
@@ -419,7 +420,7 @@ var collides = function(bb1, bb2){
             </section>
             <section>
                <h2>Object Grouping</h2>
-               <img class="taller no-border" src="img/spatialpartitioning2.svg">
+               <img class="tall no-border" src="img/spatialpartitioning2.svg">
             </section>
 
             <section>
@@ -613,11 +614,150 @@ var interval = setInterval(function(){
             <section>
               <section>
                 <h2>GamePad Api</h2>
-                <div id="gamepadapi-editor" class="tall code-editor"></div>
+                <img src="img/gamepad.png" class="tall">
+              </section>
+              <section>
+                <h2>GamePad Api</h2>
+                <div id="gamepadapi-editor" class="tall code-editor">(function(){
+var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
+window.requestAnimationFrame = window.requestAnimationFrame || 
+                              window.webkitRequestAnimationFrame || 
+                              window.mozRequestAnimationFrame || 
+                              window.oRequestAnimationFrame || 
+                              window.msRequestAnimationFrame;
+
+
+
+
+var gamepad = {};
+gamepad.BUTTONS = {
+  Face1: 0, // Face (main) buttons
+  Face2: 1,
+  Face3: 2,
+  Face4: 3,
+  LeftShoulder: 4, // Top shoulder buttons
+  RightShoulder: 5,
+  LeftShoulderBottom: 6, // Bottom shoulder buttons
+  RightShoulderBottom: 7,
+  Select: 8,
+  Start: 9,
+  LeftStick: 10, // Analogue sticks (if depressible)
+  RightStick: 11,
+  PadTop: 12, // Directional (discrete) pad
+  PadBottom: 13,
+  PadLeft: 14,
+  PadRight: 15
+};
+
+gamepad.AXES = {
+  LeftAnalogueX: 0,
+  LeftAnalogueY: 1,
+  RightAnalogueX: 2,
+  RightAnalogueY: 3
+};
+
+var leftX = 96;
+var leftY = 87;
+
+var rightX = 400;
+var rightY = 223; 
+
+var cloneObject = function(obj){
+   var newObj = {};
+   for(var key in obj){
+      if(obj.hasOwnProperty(key)){
+         if(typeof obj[key] === 'object'){
+            newObj[key] = cloneObject(obj[key]);
+         }else{
+            newObj[key] = obj[key];
+         }
+      }            
+   }
+   return newObj;
+}
+
+var oldPads = [];
+var gamePadTimeStamps = [0, 0, 0, 0]
+if(gamepadSupportAvailable){
+   uToast.info("GamePad Support Available");
+   oldPads = cloneObject(navigator.getGamepads());
+   (function pollGamePads(){
+      window.requestAnimationFrame(pollGamePads);
+
+      var gamepads = navigator.getGamepads();
+      for(var i = 0; i &lt;gamepads.length; i++){
+         if(gamepads[i] && (gamepads[i].timestamp != gamePadTimeStamps[i])){
+            for(var b in gamepad.BUTTONS){
+               var buttonIndex = gamepad.BUTTONS[b];
+               if(gamepads[i].buttons[buttonIndex].value != oldPads[i].buttons[buttonIndex].value){
+                  //uToast.info("Pad",i,"-", b, gamepads[i].buttons[buttonIndex].pressed?"pressed":"released","value",gamepads[i].buttons[buttonIndex].value);
+                  try{
+                    if(gamepads[i].buttons[buttonIndex].pressed){
+                      document.getElementById(b).style.visibility = 'visible';
+                    }else{
+                      document.getElementById(b).style.visibility = 'hidden';
+                    }
+                    
+                  }catch(e){
+                    //swallow
+                  }
+
+               }
+            }
+
+            for(var a in gamepad.AXES){
+               var axesIndex = gamepad.AXES[a];
+               if(Math.abs(gamepads[i].axes[axesIndex]-oldPads[i].axes[axesIndex])>.1){
+                  //uToast.info("Pad",i,"-",a, gamepads[i].axes[axesIndex])
+                  try{
+                    if(axesIndex === 0){
+                      document.getElementById("LeftAnalogue").style.left = leftX + gamepads[i].axes[axesIndex]*10 + 'px';
+                    }else if(axesIndex === 1){
+                      document.getElementById("LeftAnalogue").style.top = leftY + gamepads[i].axes[axesIndex]*10 + 'px';
+                    }else if(axesIndex === 2){
+                      document.getElementById("RightAnalogue").style.left = rightX + gamepads[i].axes[axesIndex]*10 + 'px';
+                    }else if(axesIndex === 3){
+                      document.getElementById("RightAnalogue").style.top = rightY + gamepads[i].axes[axesIndex]*10 + 'px';
+                    }
+                  }catch(e){
+
+                  }
+               }
+            }
+
+            gamePadTimeStamps[i] = gamepads[i].timestamp;
+         }            
+
+         oldPads[i] = cloneObject(gamepads[i]);
+      }
+      
+   })();
+}
+})();
+                </div>
               </section>
               <section>
                 <h2>Demo</h2>
-                <div></div>
+                
+                <div id="gamepad">
+                  <img src="img/xbox.jpg" class="tall">
+                  <div id="Face1"></div>
+                  <div id="Face2"></div>
+                  <div id="Face3"></div>
+                  <div id="Face4"></div>
+
+                  <div id="Start"></div>
+                  <div id="Select"></div>
+
+                  <div id="PadTop"></div>
+                  <div id="PadLeft"></div>
+                  <div id="PadBottom"></div>
+                  <div id="PadRight"></div>
+
+                  <div id="LeftAnalogue"></div>
+                  <div id="RightAnalogue"></div>
+                </div>
+              
               </section>
             </section>
 
@@ -631,6 +771,14 @@ var interval = setInterval(function(){
                   <li class="fragment">Mitigate Cheating with Command Style messages</li>
                   <li class="fragment">Bots</li>
                 </ul>
+              </section>
+              <section>
+                <h2>Websockets</h2>
+                <ul>
+                  <li>Socket.io</li>
+                  <li>Signalr.NET</li>
+                </ul>
+
               </section>
               <section>
                 <h2>Hyper Asteroids</h2>
@@ -682,7 +830,7 @@ var interval = setInterval(function(){
                   <ul class="fragment">
                      <li>Core HTML5 Canvas - David Geary</li>
                      <li>Secrets of a JavaScript Ninja - John Resig</li>
-                     <li>JavaScript: The Good Parts - Douglass Crockford</li>
+                     <li>JavaScript: The Good Parts - Douglas Crockford</li>
                   </ul>
                   <li class="fragment">YouTube Videos</li>
                   <ul class="fragment">

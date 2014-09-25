@@ -1,0 +1,123 @@
+#gamepad {
+  position: relative;
+  display: inline-block;
+}
+
+#Face1 { 
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+  top: 189px;
+  left: 543px;
+}
+
+#Face2 {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+  top: 132px;
+  left: 600px;
+}
+#Face3 {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+  top: 134px;
+  left: 487px;
+}
+
+#Face4 {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  position: absolute;
+  top: 78px;
+  left: 543px;
+}
+
+#Start {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: blue;
+  position: absolute;
+  top: 140px;
+  left: 409px;
+}
+
+#Select {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: blue;
+  position: absolute;
+  top: 137px;
+  left: 258px;
+}
+
+#PadTop {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: yellow;
+  position: absolute;
+  top: 219px;
+  left: 222px;
+}
+
+#PadBottom {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: yellow;
+  position: absolute;
+  top: 299px;
+  left: 222px;
+}      
+
+#PadLeft {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: yellow;
+  position: absolute;
+  top: 259px;
+  left: 183px;
+}
+
+#PadRight {
+  visibility: hidden;
+  width: 30px;
+  height: 30px;
+  background-color: yellow;
+  position: absolute;
+  top: 259px;
+  left: 262px;
+}
+
+#LeftAnalogue {
+  background-color: green;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 96px;
+  left: 87px;
+  border-radius: 55px
+}
+
+#RightAnalogue {
+  background-color: purple;
+  position: absolute; 
+  width: 100px;
+  height: 100px;
+  top: 223px;
+  left: 400px;
+  border-radius: 55px
+}
